@@ -14,83 +14,60 @@
 function openPage(page){
 
 
-
-    let pages=document.querySelectorAll(
-
-        ".page"
-
-    );
-
+    let pages = document.querySelectorAll(".page");
 
 
     pages.forEach(p=>{
 
-
         p.classList.add("hidden");
-
 
     });
 
 
 
-
-    let current=document.getElementById(page);
-
+    let current = document.getElementById(page);
 
 
     if(current){
 
-
         current.classList.remove("hidden");
-
 
     }
 
 
 
-
-
-
-    let buttons=document.querySelectorAll(
-
-        ".menuButton"
-
-    );
-
+    let buttons = document.querySelectorAll(".menuButton");
 
 
     buttons.forEach(btn=>{
 
-
         btn.classList.remove("active");
-
 
     });
 
 
 
-
-    event?.currentTarget?.classList.add(
-
-        "active"
-
+    let activeButton = document.querySelector(
+        `[onclick="openPage('${page}')"]`
     );
 
+
+    if(activeButton){
+
+        activeButton.classList.add("active");
+
+    }
 
 
 
     if(page==="dashboard"){
 
-
         updateDashboard();
-
 
     }
 
 
-
 }
-
 
 
 
