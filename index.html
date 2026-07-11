@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>LifeFlow Ultimate</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+
+<body>
+
+
+<div class="app">
+
+
+<aside class="sidebar">
+
+<h1>🌸 LifeFlow</h1>
+
+
+<input 
+id="search"
+placeholder="🔍 Поиск..."
+>
+
+
+<button onclick="openPage('home')">
+🏠 Главная
+</button>
+
+
+<button onclick="openPage('habits')">
+🌱 Привычки
+</button>
+
+
+<button onclick="openPage('tasks')">
+✅ Задачи
+</button>
+
+
+<button onclick="openPage('finance')">
+💰 Финансы
+</button>
+
+
+<button onclick="openPage('goals')">
+🎯 Цели
+</button>
+
+
+<button onclick="openPage('templates')">
+📚 Шаблоны
+</button>
+
+
+<button onclick="toggleTheme()">
+🌙 Тема
+</button>
+
+
+</aside>
+
+
+
+
+
+<main>
+
+
+<section id="home" class="page">
+
+
+<h2>
+Добро пожаловать 👋
+</h2>
+
+
+
+<div class="dashboard">
+
+
+<div class="card">
+
+<h3>
+📈 Продуктивность
+</h3>
+
+<div class="circle">
+
+75%
+
+</div>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+🔥 Серия
+</h3>
+
+<h1>
+14 дней
+</h1>
+
+</div>
+
+
+
+
+<div class="card">
+
+<h3>
+💰 Баланс
+</h3>
+
+<h1>
+25 000 сом
+</h1>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="card chart">
+
+<h3>
+Статистика
+</h3>
+
+<canvas id="mainChart"></canvas>
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<section id="habits" class="page hidden">
+
+
+<h2>
+🌱 Привычки
+</h2>
+
+
+<input id="habitName"
+placeholder="Название привычки">
+
+
+<button onclick="addHabit()">
+Добавить
+</button>
+
+
+<div id="habitList"></div>
+
+
+</section>
+
+
+
+
+
+
+
+<section id="tasks" class="page hidden">
+
+
+<h2>
+✅ Задачи
+</h2>
+
+
+<input id="taskName"
+placeholder="Новая задача">
+
+
+<button onclick="addTask()">
+Добавить
+</button>
+
+
+<div id="taskList"></div>
+
+
+</section>
+
+
+
+
+
+
+
+<section id="finance" class="page hidden">
+
+
+<h2>
+💰 Финансы
+</h2>
+
+
+<input id="moneyValue"
+placeholder="Сумма">
+
+
+<button onclick="addFinance()">
+Добавить расход
+</button>
+
+
+<h3 id="balance">
+0 сом
+</h3>
+
+
+<div id="financeList"></div>
+
+
+</section>
+
+
+
+
+
+
+
+<section id="goals" class="page hidden">
+
+
+<h2>
+🎯 Цели
+</h2>
+
+
+<div class="card">
+
+<h3>
+Купить ноутбук
+</h3>
+
+
+<div class="progress">
+
+<div style="width:60%"></div>
+
+</div>
+
+
+<p>
+60%
+</p>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<section id="templates" class="page hidden">
+
+
+<h2>
+📚 Готовые шаблоны
+</h2>
+
+
+<div class="templates">
+
+
+<div class="card">
+🌱
+30 дней привычек
+</div>
+
+
+<div class="card">
+💰
+Финансовый план
+</div>
+
+
+<div class="card">
+📚
+План обучения
+</div>
+
+
+<div class="card">
+🏋️
+Спорт программа
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+</main>
+
+
+</div>
+
+
+
+
+
+<script src="js/storage.js"></script>
+<script src="js/habits.js"></script>
+<script src="js/tasks.js"></script>
+<script src="js/finance.js"></script>
+<script src="js/charts.js"></script>
+<script src="app.js"></script>
+
+
+</body>
+
+</html>

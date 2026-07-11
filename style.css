@@ -1,0 +1,455 @@
+* {
+    box-sizing: border-box;
+}
+
+
+:root {
+
+    --bg: #fff7fb;
+    --card: #ffffff;
+    --text: #444;
+    --primary: #ff8fab;
+    --secondary: #bde0fe;
+    --green: #caffbf;
+    --shadow: 0 15px 35px rgba(0,0,0,0.08);
+
+}
+
+
+
+body.dark {
+
+    --bg: #151521;
+    --card: #222235;
+    --text: #eee;
+    --primary: #c77dff;
+
+}
+
+
+
+body {
+
+    margin:0;
+
+    background:var(--bg);
+
+    color:var(--text);
+
+    font-family:
+    "Segoe UI",
+    Arial,
+    sans-serif;
+
+    transition:.3s;
+
+}
+
+
+
+
+
+.app {
+
+    display:flex;
+
+    min-height:100vh;
+
+}
+
+
+
+
+
+/* Боковое меню */
+
+
+.sidebar {
+
+    width:270px;
+
+    padding:25px;
+
+    background:
+    linear-gradient(
+    160deg,
+    #ffd6e7,
+    #cdefff
+    );
+
+    position:fixed;
+
+    height:100vh;
+
+}
+
+
+
+.dark .sidebar {
+
+    background:#1c1c2e;
+
+}
+
+
+
+.sidebar h1 {
+
+    color:#d63384;
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+
+
+.sidebar input {
+
+    width:100%;
+
+    padding:13px;
+
+    border-radius:20px;
+
+    border:none;
+
+    margin-bottom:20px;
+
+    outline:none;
+
+}
+
+
+
+
+.sidebar button {
+
+    width:100%;
+
+    padding:14px;
+
+    margin:8px 0;
+
+    border:none;
+
+    border-radius:18px;
+
+    background:white;
+
+    cursor:pointer;
+
+    font-size:15px;
+
+    transition:.3s;
+
+}
+
+
+
+.sidebar button:hover {
+
+    transform:translateX(8px);
+
+    background:#ffe5ec;
+
+}
+
+
+
+
+
+main {
+
+    margin-left:270px;
+
+    padding:35px;
+
+    width:100%;
+
+}
+
+
+
+
+
+.page h2 {
+
+    font-size:32px;
+
+}
+
+
+
+
+
+.hidden {
+
+    display:none;
+
+}
+
+
+
+
+
+/* Dashboard */
+
+
+.dashboard {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+    auto-fit,
+    minmax(220px,1fr)
+    );
+
+    gap:25px;
+
+}
+
+
+
+
+.card {
+
+    background:var(--card);
+
+    padding:25px;
+
+    border-radius:30px;
+
+    box-shadow:var(--shadow);
+
+    transition:.3s;
+
+}
+
+
+
+.card:hover {
+
+    transform:
+    translateY(-7px);
+
+}
+
+
+
+
+
+.circle {
+
+    width:130px;
+
+    height:130px;
+
+    border-radius:50%;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:30px;
+
+    font-weight:bold;
+
+    background:
+
+    conic-gradient(
+        var(--primary) 75%,
+        #eee 0
+    );
+
+}
+
+
+
+
+
+.chart {
+
+    margin-top:30px;
+
+}
+
+
+
+
+
+/* Формы */
+
+
+input {
+
+    padding:14px;
+
+    border-radius:15px;
+
+    border:1px solid #ddd;
+
+    margin:10px;
+
+    font-size:16px;
+
+}
+
+
+
+button {
+
+    cursor:pointer;
+
+}
+
+
+
+
+
+.page > button {
+
+    padding:13px 25px;
+
+    border:none;
+
+    border-radius:20px;
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+
+
+
+/* Списки */
+
+
+.item {
+
+    background:var(--card);
+
+    padding:18px;
+
+    border-radius:20px;
+
+    margin:10px 0;
+
+    box-shadow:var(--shadow);
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+}
+
+
+
+
+.done {
+
+    opacity:.5;
+
+    text-decoration:
+    line-through;
+
+}
+
+
+
+
+
+/* Прогресс */
+
+
+.progress {
+
+    height:15px;
+
+    background:#eee;
+
+    border-radius:20px;
+
+    overflow:hidden;
+
+}
+
+
+
+.progress div {
+
+    height:100%;
+
+    background:
+    linear-gradient(
+    90deg,
+    #ff8fab,
+    #cdb4db
+    );
+
+}
+
+
+
+
+
+.templates {
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(
+    auto-fit,
+    minmax(200px,1fr)
+    );
+
+    gap:20px;
+
+}
+
+
+
+
+
+/* Телефон */
+
+
+@media(max-width:800px){
+
+
+.sidebar {
+
+    position:relative;
+
+    width:100%;
+
+    height:auto;
+
+}
+
+
+.app {
+
+    display:block;
+
+}
+
+
+main {
+
+    margin-left:0;
+
+}
+
+
+
+}
