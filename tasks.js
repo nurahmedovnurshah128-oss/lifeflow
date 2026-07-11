@@ -1,29 +1,50 @@
-// =============================
-// LifeFlow Tasks
-// Модуль задач
-// =============================
+/*
+==================================
+ LifeFlow Ultimate
+ Tasks Manager
+==================================
+*/
+
+
+let tasks = [];
 
 
 
-function addTask(){
+
+// Загрузка задач
+
+function loadTasks(){
+
+    let data = Storage.get();
+
+    tasks = data.tasks || [];
+
+    renderTasks();
+
+    updateDashboardTasks();
+
+}
 
 
-    let input =
-    document.getElementById(
-        "taskName"
-    );
-
-
-    let name =
-    input.value.trim();
 
 
 
-    if(name===""){
+// Создание задачи
 
-        alert(
-            "Введите задачу"
-        );
+function createTask(){
+
+
+    let title = document.getElementById("taskTitle").value.trim();
+
+    let priority = document.getElementById("taskPriority").value;
+
+    let date = document.getElementById("taskDate").value;
+
+
+
+    if(!title){
+
+        alert("Введите название задачи");
 
         return;
 
@@ -31,37 +52,45 @@ function addTask(){
 
 
 
-    let data =
-    getData();
+    let task = {
 
-
-
-    data.tasks.push({
 
         id: Date.now(),
 
-        title:name,
 
-        priority:"medium",
-
-        done:false,
-
-        date:
-        new Date()
-        .toLocaleDateString()
-
-    });
+        title:title,
 
 
-
-    saveData(data);
-
+        priority:priority,
 
 
-    input.value="";
+        date:date,
+
+
+        completed:false,
+
+
+        created:new Date().toLocaleDateString()
+
+
+    };
+
+
+
+    tasks.push(task);
+
+
+    Storage.update("tasks",tasks);
+
+
+
+    document.getElementById("taskTitle").value="";
+
 
 
     renderTasks();
+
+    updateDashboardTasks();
 
 
 }
@@ -72,229 +101,94 @@ function addTask(){
 
 
 
-function toggleTask(id){
-
-
-    let data =
-    getData();
-
-
-
-    let task =
-    data.tasks.find(
-        t=>t.id===id
-    );
-
-
-
-    if(task){
-
-        task.done =
-        !task.done;
-
-    }
-
-
-
-    saveData(data);
-
-
-    renderTasks();
-
-
-
-}
-
-
-
-
-
-
-
-function deleteTask(id){
-
-
-    let data =
-    getData();
-
-
-
-    data.tasks =
-    data.tasks.filter(
-        t=>t.id!==id
-    );
-
-
-
-    saveData(data);
-
-
-    renderTasks();
-
-
-}
-
-
-
-
-
-
-
-function changePriority(
-id,
-priority
-){
-
-
-    let data =
-    getData();
-
-
-
-    let task =
-    data.tasks.find(
-        t=>t.id===id
-    );
-
-
-
-    if(task){
-
-        task.priority =
-        priority;
-
-    }
-
-
-
-    saveData(data);
-
-
-    renderTasks();
-
-
-}
-
-
-
-
-
+// Вывод задач
 
 
 function renderTasks(){
 
 
-
-    let box =
-    document.getElementById(
-        "taskList"
-    );
+    let container=document.getElementById("taskList");
 
 
-
-    if(!box)
-    return;
+    if(!container) return;
 
 
 
-    box.innerHTML="";
+    container.innerHTML="";
 
 
 
-    let data =
-    getData();
+    if(tasks.length===0){
+
+
+        container.innerHTML=
+
+        `
+
+        <div class="empty">
+
+        Нет задач
+
+        </div>
+
+        `;
+
+
+        return;
+
+    }
 
 
 
-    data.tasks
-    .sort(
-    (a,b)=>{
-
-        if(a.done===b.done)
-        return 0;
 
 
-        return a.done ? 1 : -1;
+    tasks.forEach(task=>{
 
-    })
-    .forEach(
-    task=>{
+
+        let div=document.createElement("div");
+
+
+        div.className="taskCard";
 
 
 
-        let color =
-        "#ffd166";
+        if(task.completed){
 
-
-        if(
-        task.priority==="high"
-        ){
-
-            color="#ff8fab";
-
-        }
-
-
-
-        if(
-        task.priority==="low"
-        ){
-
-            color="#a8dadc";
+            div.classList.add("completed");
 
         }
 
 
 
-
-        let div =
-        document.createElement(
-            "div"
-        );
+        div.innerHTML=
 
 
+        `
 
-        div.className =
-        "item";
-
-
-
-        if(task.done){
-
-            div.classList.add(
-                "done"
-            );
-
-        }
-
-
-
-        div.innerHTML = `
-
-
-        <div>
+        <div class="taskInfo">
 
 
         <h3>
-        ${task.done
-        ? "✅"
-        : "⬜"}
 
         ${task.title}
 
         </h3>
 
 
+        <p>
 
-        <span style="
-        background:${color};
-        padding:5px 12px;
-        border-radius:15px;
-        ">
+        Приоритет:
+        ${getPriority(task.priority)}
 
-        ${task.priority}
+        </p>
 
-        </span>
+
+
+        <small>
+
+        ${task.date || "Без даты"}
+
+        </small>
 
 
 
@@ -302,37 +196,10 @@ function renderTasks(){
 
 
 
-        <div>
+        <div class="taskActions">
 
 
-        <select onchange="
-        changePriority(
-        ${task.id},
-        this.value
-        )">
-
-        <option>
-        medium
-        </option>
-
-
-        <option>
-        high
-        </option>
-
-
-        <option>
-        low
-        </option>
-
-
-        </select>
-
-
-
-        <button onclick="
-        toggleTask(${task.id})
-        ">
+        <button onclick="completeTask(${task.id})">
 
         ✔
 
@@ -340,9 +207,7 @@ function renderTasks(){
 
 
 
-        <button onclick="
-        deleteTask(${task.id})
-        ">
+        <button onclick="deleteTask(${task.id})">
 
         🗑
 
@@ -356,7 +221,7 @@ function renderTasks(){
 
 
 
-        box.appendChild(div);
+        container.appendChild(div);
 
 
 
@@ -365,3 +230,217 @@ function renderTasks(){
 
 
 }
+
+
+
+
+
+
+
+// Завершение задачи
+
+
+function completeTask(id){
+
+
+
+    tasks = tasks.map(task=>{
+
+
+        if(task.id===id){
+
+            task.completed=!task.completed;
+
+        }
+
+
+        return task;
+
+
+    });
+
+
+
+    Storage.update("tasks",tasks);
+
+
+
+    renderTasks();
+
+
+    updateDashboardTasks();
+
+
+}
+
+
+
+
+
+
+
+// Удаление задачи
+
+
+function deleteTask(id){
+
+
+    tasks = tasks.filter(
+
+        task=>task.id!==id
+
+    );
+
+
+
+    Storage.update("tasks",tasks);
+
+
+
+    renderTasks();
+
+
+    updateDashboardTasks();
+
+
+
+}
+
+
+
+
+
+
+
+// Приоритеты
+
+
+function getPriority(priority){
+
+
+    if(priority==="high")
+
+        return "🔴 Высокий";
+
+
+    if(priority==="medium")
+
+        return "🟡 Средний";
+
+
+    return "🟢 Низкий";
+
+
+}
+
+
+
+
+
+
+
+
+// Статистика на главной
+
+
+function updateDashboardTasks(){
+
+
+
+    let counter=document.getElementById(
+
+        "todayTasks"
+
+    );
+
+
+
+    if(!counter) return;
+
+
+
+    let active = tasks.filter(
+
+        t=>!t.completed
+
+    ).length;
+
+
+
+    counter.innerText=active;
+
+
+
+}
+
+
+
+
+
+// Последние задачи
+
+
+function renderRecentTasks(){
+
+
+
+    let box=document.getElementById(
+
+        "recentTasks"
+
+    );
+
+
+
+    if(!box)return;
+
+
+
+    box.innerHTML="";
+
+
+
+    tasks.slice(-5).reverse().forEach(task=>{
+
+
+        box.innerHTML +=
+
+
+        `
+
+        <div class="miniTask">
+
+        ${task.completed ? "✔":"○"}
+
+        ${task.title}
+
+        </div>
+
+        `;
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+// Запуск
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+    loadTasks();
+
+}
+
+);
