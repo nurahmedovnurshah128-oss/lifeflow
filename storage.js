@@ -34,3 +34,45 @@ const AppStorage = {
 
 // совместимость со старыми файлами
 window.Storage = AppStorage;
+window.Storage = {
+
+    get(section){
+
+        let data = LifeStorage.get();
+
+        if(section){
+            return data[section] || [];
+        }
+
+        return data;
+    },
+
+
+    set(data){
+
+        LifeStorage.save(data);
+
+    },
+
+
+    update(section,value){
+
+        LifeStorage.update(section,value);
+
+    },
+
+
+    add(section,item){
+
+        LifeStorage.add(section,item);
+
+    },
+
+
+    remove(section,id){
+
+        LifeStorage.remove(section,id);
+
+    }
+
+};
