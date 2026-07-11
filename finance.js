@@ -1,31 +1,58 @@
-// =============================
-// LifeFlow Finance
-// Модуль финансов
-// =============================
+/*
+==================================
+ LifeFlow Ultimate
+ Finance Manager
+==================================
+*/
+
+
+let finances = [];
 
 
 
-function addFinance(){
+
+// Загрузка финансов
+
+function loadFinance(){
 
 
-    let input =
-    document.getElementById(
-        "moneyValue"
+    let data = Storage.get();
+
+
+    finances = data.finance || [];
+
+
+    renderFinance();
+
+
+    updateFinanceStats();
+
+
+}
+
+
+
+
+
+
+// Добавление операции
+
+function saveFinance(){
+
+
+    let title = document.getElementById("financeTitle").value.trim();
+
+    let amount = Number(
+        document.getElementById("financeAmount").value
     );
 
-
-    let amount =
-    Number(
-        input.value
-    );
+    let type = document.getElementById("financeType").value;
 
 
 
-    if(!amount || amount <= 0){
+    if(!title || !amount){
 
-        alert(
-            "Введите сумму"
-        );
+        alert("Заполните все поля");
 
         return;
 
@@ -33,108 +60,55 @@ function addFinance(){
 
 
 
-    let data =
-    getData();
+    let item = {
 
-
-
-    data.finance.push({
 
         id: Date.now(),
 
-        amount: amount,
 
-        type:"expense",
-
-        category:"Другое",
-
-        date:
-        new Date()
-        .toLocaleDateString()
-
-    });
+        title:title,
 
 
-
-    saveData(data);
-
+        amount:amount,
 
 
-    input.value="";
+        type:type,
 
 
-    renderFinance();
+        date:new Date().toLocaleDateString()
 
 
-}
+    };
 
 
 
+    finances.push(item);
 
 
 
+    Storage.update(
 
-function addIncome(amount){
+        "finance",
 
+        finances
 
-    let data =
-    getData();
-
-
-
-    data.finance.push({
-
-        id:Date.now(),
-
-        amount:Number(amount),
-
-        type:"income",
-
-        category:"Доход",
-
-        date:
-        new Date()
-        .toLocaleDateString()
-
-    });
-
-
-
-    saveData(data);
-
-
-    renderFinance();
-
-
-}
-
-
-
-
-
-
-
-function deleteFinance(id){
-
-
-    let data =
-    getData();
-
-
-
-    data.finance =
-    data.finance.filter(
-        item=>item.id!==id
     );
 
 
 
-    saveData(data);
+    document.getElementById("financeTitle").value="";
+
+    document.getElementById("financeAmount").value="";
+
 
 
     renderFinance();
 
 
+    updateFinanceStats();
+
+
+
 }
 
 
@@ -143,63 +117,21 @@ function deleteFinance(id){
 
 
 
-function calculateBalance(){
-
-
-    let data =
-    getData();
-
-
-
-    let balance = 0;
-
-
-
-    data.finance.forEach(
-    item=>{
-
-
-        if(
-        item.type==="income"
-        ){
-
-            balance += item.amount;
-
-        }
-        else{
-
-            balance -= item.amount;
-
-        }
-
-
-    });
-
-
-
-    return balance;
-
-
-}
-
-
-
-
-
+// Отображение операций
 
 
 function renderFinance(){
 
 
-    let box =
-    document.getElementById(
+    let box=document.getElementById(
+
         "financeList"
+
     );
 
 
 
-    if(!box)
-    return;
+    if(!box)return;
 
 
 
@@ -207,77 +139,93 @@ function renderFinance(){
 
 
 
-    let data =
-    getData();
+    if(finances.length===0){
+
+
+        box.innerHTML=
+
+        `
+
+        <div class="empty">
+
+        Нет операций
+
+        </div>
+
+        `;
+
+
+        return;
+
+    }
 
 
 
-    data.finance
+
+
+    finances
+    .slice()
     .reverse()
-    .forEach(
-    item=>{
+    .forEach(item=>{
+
+
+        let div=document.createElement("div");
+
+
+        div.className="financeItem";
 
 
 
-        let div =
-        document.createElement(
-            "div"
-        );
+        div.innerHTML=
 
 
-
-        div.className =
-        "item";
-
-
-
-        let sign =
-        item.type==="income"
-        ? "+"
-        : "-";
-
-
-
-        div.innerHTML = `
-
+        `
 
         <div>
 
+
         <h3>
 
-        ${item.type==="income"
-        ? "💚"
-        : "💸"}
-
-        ${sign}
-        ${item.amount}
-        сом
+        ${item.title}
 
         </h3>
 
 
-        <p>
-
-        ${item.category}
-
-        |
+        <small>
 
         ${item.date}
 
-        </p>
+        </small>
 
 
         </div>
 
 
 
-        <button onclick="
-        deleteFinance(${item.id})
-        ">
+        <div>
+
+
+        <b>
+
+        ${
+            item.type==="income"
+            ? "+"
+            : "-"
+        }
+
+        ${item.amount} сом
+
+        </b>
+
+
+        <button onclick="deleteFinance(${item.id})">
 
         🗑
 
         </button>
+
+
+        </div>
 
 
         `;
@@ -287,36 +235,163 @@ function renderFinance(){
         box.appendChild(div);
 
 
+
     });
 
 
 
-    let balance =
-    document.getElementById(
-        "balance"
+}
+
+
+
+
+
+
+
+
+// Удаление операции
+
+
+function deleteFinance(id){
+
+
+    finances = finances.filter(
+
+        f=>f.id!==id
+
     );
 
 
 
-    if(balance){
+    Storage.update(
+
+        "finance",
+
+        finances
+
+    );
 
 
-        let value =
-        calculateBalance();
+
+    renderFinance();
 
 
-
-        balance.innerHTML =
-
-        "Баланс: "
-        +
-        value
-        +
-        " сом";
-
-
-    }
-
+    updateFinanceStats();
 
 
 }
+
+
+
+
+
+
+
+
+// Статистика
+
+
+function updateFinanceStats(){
+
+
+    let income = 0;
+
+    let expense = 0;
+
+
+
+    finances.forEach(item=>{
+
+
+        if(item.type==="income"){
+
+            income += item.amount;
+
+        }
+
+        else{
+
+            expense += item.amount;
+
+        }
+
+
+    });
+
+
+
+
+    let balance = income-expense;
+
+
+
+    let incomeBox=document.getElementById("income");
+
+    let expenseBox=document.getElementById("expense");
+
+    let balanceBox=document.getElementById("totalBalance");
+
+    let card=document.getElementById("balanceCard");
+
+
+
+    if(incomeBox)
+
+        incomeBox.innerText =
+        income+" сом";
+
+
+
+    if(expenseBox)
+
+        expenseBox.innerText =
+        expense+" сом";
+
+
+
+    if(balanceBox)
+
+        balanceBox.innerText =
+        balance+" сом";
+
+
+
+    if(card)
+
+        card.innerText =
+        balance+" сом";
+
+
+}
+
+
+
+
+
+
+// Быстрое добавление
+
+function addFinance(){
+
+    document
+    .getElementById("financeTitle")
+    .focus();
+
+}
+
+
+
+
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+    loadFinance();
+
+}
+
+);
