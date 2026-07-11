@@ -4,213 +4,488 @@
 <head>
 
 <meta charset="UTF-8">
-
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>LifeFlow Ultimate</title>
 
 <link rel="stylesheet" href="style.css">
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  
-<title>LifeFlow — планер привычек, задач и финансов</title>
 
-<meta name="description" content="LifeFlow — удобный планер для управления привычками, задачами, финансами и личными целями.">
-
-<meta name="keywords" content="LifeFlow, планер, привычки, задачи, финансы, цели, трекер">
-
-<meta name="author" content="LifeFlow">
 </head>
-
 
 <body>
 
-
 <div class="app">
 
+<!-- ========================= -->
+<!-- Sidebar -->
+<!-- ========================= -->
 
 <aside class="sidebar">
 
-<h1>🌸 LifeFlow</h1>
+<div class="logo">
 
+<div class="logoIcon">
+🌸
+</div>
 
-<input 
+<div>
+
+<h1>LifeFlow</h1>
+
+<p>
+Ultimate v2
+</p>
+
+</div>
+
+</div>
+
+<div class="searchBox">
+
+<input
 id="search"
-placeholder="🔍 Поиск..."
+type="text"
+placeholder="Поиск..."
 >
 
+</div>
 
-<button onclick="openPage('home')">
-🏠 Главная
+<nav class="menu">
+
+<button class="menuButton active"
+onclick="openPage('dashboard')">
+
+🏠
+
+<span>
+Главная
+</span>
+
 </button>
 
+<button class="menuButton"
+onclick="openPage('tasks')">
 
-<button onclick="openPage('habits')">
-🌱 Привычки
+✅
+
+<span>
+Задачи
+</span>
+
 </button>
 
+<button class="menuButton"
+onclick="openPage('habits')">
 
-<button onclick="openPage('tasks')">
-✅ Задачи
+🌱
+
+<span>
+Привычки
+</span>
+
 </button>
 
+<button class="menuButton"
+onclick="openPage('finance')">
 
-<button onclick="openPage('finance')">
-💰 Финансы
+💰
+
+<span>
+Финансы
+</span>
+
 </button>
 
+<button class="menuButton"
+onclick="openPage('goals')">
 
-<button onclick="openPage('goals')">
-🎯 Цели
+🎯
+
+<span>
+Цели
+</span>
+
 </button>
 
+<button class="menuButton"
+onclick="openPage('templates')">
 
-<button onclick="openPage('templates')">
-📚 Шаблоны
+📚
+
+<span>
+Шаблоны
+</span>
+
 </button>
 
+<button class="menuButton"
+onclick="toggleTheme()">
 
-<button onclick="toggleTheme()">
-🌙 Тема
+🌙
+
+<span>
+Тема
+</span>
+
 </button>
 
+</nav>
+
+<div class="sidebarBottom">
+
+<div class="profileCard">
+
+<div class="avatar">
+
+👤
+
+</div>
+
+<div>
+
+<h3 id="profileName">
+Пользователь
+</h3>
+
+<p>
+LifeFlow
+</p>
+
+</div>
+
+</div>
+
+</div>
 
 </aside>
 
+<!-- ========================= -->
+<!-- Main -->
+<!-- ========================= -->
 
+<main class="content">
 
+<!-- ========================= -->
+<!-- Dashboard -->
+<!-- ========================= -->
 
+<section
+id="dashboard"
+class="page">
 
-<main>
+<header class="topBar">
 
+<div>
 
-<section id="home" class="page">
+<h2 id="helloText">
 
-
-<h2>
 Добро пожаловать 👋
+
 </h2>
 
+<p>
 
+Планируйте день эффективно
 
-<div class="dashboard">
-
-
-<div class="card">
-
-<h3>
-📈 Продуктивность
-</h3>
-
-<div class="circle">
-
-75%
+</p>
 
 </div>
 
+<div class="topButtons">
+
+<button onclick="exportData()">
+
+Экспорт
+
+</button>
+
+<button onclick="importData()">
+
+Импорт
+
+</button>
+
 </div>
 
+</header>
 
+<div class="dashboardCards">
 
+<div class="dashboardCard">
 
-<div class="card">
+<div>
 
 <h3>
-🔥 Серия
+
+Сегодня
+
 </h3>
 
-<h1>
-14 дней
+<h1
+id="todayTasks">
+
+0
+
 </h1>
 
+<p>
+
+активных задач
+
+</p>
+
 </div>
 
+<div class="emoji">
 
+📅
 
+</div>
 
-<div class="card">
+</div>
+
+<div class="dashboardCard">
+
+<div>
 
 <h3>
-💰 Баланс
+
+Привычки
+
 </h3>
 
-<h1>
-25 000 сом
+<h1
+id="habitProgress">
+
+0%
+
 </h1>
 
+<p>
+
+выполнено
+
+</p>
+
 </div>
 
+<div class="emoji">
+
+🌱
 
 </div>
 
+</div>
 
+<div class="dashboardCard">
 
-
-<div class="card chart">
+<div>
 
 <h3>
+
+Баланс
+
+</h3>
+
+<h1
+id="balanceCard">
+
+0 сом
+
+</h1>
+
+<p>
+
+финансы
+
+</p>
+
+</div>
+
+<div class="emoji">
+
+💰
+
+</div>
+
+</div>
+
+<div class="dashboardCard">
+
+<div>
+
+<h3>
+
+Цели
+
+</h3>
+
+<h1
+id="goalProgress">
+
+0%
+
+</h1>
+
+<p>
+
+выполнено
+
+</p>
+
+</div>
+
+<div class="emoji">
+
+🎯
+
+</div>
+
+</div>
+
+</div>
+
+<div class="dashboardGrid">
+
+<div class="bigCard">
+
+<h3>
+
 Статистика
+
 </h3>
 
 <canvas id="mainChart"></canvas>
 
 </div>
 
+<div class="bigCard">
 
-</section>
+<h3>
 
+Последние задачи
 
+</h3>
 
+<div
+id="recentTasks">
 
+</div>
 
+</div>
 
+</div>
 
-<section id="habits" class="page hidden">
-
-
-<h2>
-🌱 Привычки
-</h2>
-
-
-<input id="habitName"
-placeholder="Название привычки">
-
-
-<button onclick="addHabit()">
-Добавить
-</button>
-
-
-<div id="habitList"></div>
-
-
-</section>
-
-
-
-
-
-
+<!-- ========================= -->
+<!-- Tasks -->
+<!-- ========================= -->
 
 <section id="tasks" class="page hidden">
 
+<header class="pageHeader">
 
 <h2>
 ✅ Задачи
 </h2>
 
-
-<input id="taskName"
-placeholder="Новая задача">
-
-
-<button onclick="addTask()">
-Добавить
+<button class="mainButton" onclick="addTask()">
++ Добавить
 </button>
 
+</header>
 
-<div id="taskList"></div>
+
+<div class="taskCreator">
+
+<input 
+id="taskTitle"
+placeholder="Название задачи..."
+>
+
+
+<select id="taskPriority">
+
+<option value="high">
+Высокий приоритет
+</option>
+
+<option value="medium">
+Средний приоритет
+</option>
+
+<option value="low">
+Низкий приоритет
+</option>
+
+</select>
+
+
+<input 
+id="taskDate"
+type="date"
+>
+
+
+<button onclick="createTask()">
+Создать
+</button>
+
+</div>
+
+
+<div id="taskList">
+
+</div>
+
+
+</section>
+
+
+
+
+<!-- ========================= -->
+<!-- Habits -->
+<!-- ========================= -->
+
+<section id="habits" class="page hidden">
+
+
+<header class="pageHeader">
+
+<h2>
+🌱 Привычки
+</h2>
+
+<button class="mainButton" onclick="createHabit()">
++ Добавить
+</button>
+
+</header>
+
+
+
+<div class="habitCreator">
+
+<input
+id="habitName"
+placeholder="Новая привычка..."
+>
+
+
+</div>
+
+
+<div id="habitList">
+
+</div>
 
 
 </section>
@@ -219,31 +494,127 @@ placeholder="Новая задача">
 
 
 
-
+<!-- ========================= -->
+<!-- Finance -->
+<!-- ========================= -->
 
 <section id="finance" class="page hidden">
 
+
+<header class="pageHeader">
 
 <h2>
 💰 Финансы
 </h2>
 
 
-<input id="moneyValue"
-placeholder="Сумма">
+<button class="mainButton"
+onclick="addFinance()">
 
++ Добавить
 
-<button onclick="addFinance()">
-Добавить расход
 </button>
 
 
-<h3 id="balance">
-0 сом
+</header>
+
+
+
+<div class="financeStats">
+
+
+<div class="financeCard">
+
+<h3>
+Доходы
 </h3>
 
+<h1 id="income">
+0 сом
+</h1>
 
-<div id="financeList"></div>
+</div>
+
+
+
+<div class="financeCard">
+
+<h3>
+Расходы
+</h3>
+
+<h1 id="expense">
+0 сом
+</h1>
+
+</div>
+
+
+
+<div class="financeCard">
+
+<h3>
+Баланс
+</h3>
+
+<h1 id="totalBalance">
+0 сом
+</h1>
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="financeForm">
+
+
+<input
+id="financeTitle"
+placeholder="Название"
+>
+
+
+<input
+id="financeAmount"
+type="number"
+placeholder="Сумма"
+>
+
+
+
+<select id="financeType">
+
+<option value="income">
+Доход
+</option>
+
+
+<option value="expense">
+Расход
+</option>
+
+
+</select>
+
+
+
+<button onclick="saveFinance()">
+Добавить
+</button>
+
+
+
+</div>
+
+
+
+<div id="financeList">
+
+</div>
 
 
 </section>
@@ -253,8 +624,15 @@ placeholder="Сумма">
 
 
 
+<!-- ========================= -->
+<!-- Goals -->
+<!-- ========================= -->
+
 
 <section id="goals" class="page hidden">
+
+
+<header class="pageHeader">
 
 
 <h2>
@@ -262,26 +640,55 @@ placeholder="Сумма">
 </h2>
 
 
-<div class="card">
+<button class="mainButton"
+onclick="createGoal()">
 
-<h3>
-Купить ноутбук
-</h3>
++ Добавить
+
+</button>
 
 
-<div class="progress">
+</header>
 
-<div style="width:60%"></div>
+
+
+
+<div class="goalForm">
+
+
+<input
+id="goalName"
+placeholder="Название цели"
+>
+
+
+
+<input
+id="goalProgressInput"
+type="number"
+placeholder="Прогресс %"
+min="0"
+max="100"
+>
+
+
+
+<button onclick="saveGoal()">
+
+Создать
+
+</button>
+
+
 
 </div>
 
 
-<p>
-60%
-</p>
 
+<div id="goalList">
 
 </div>
+
 
 
 </section>
@@ -290,40 +697,80 @@ placeholder="Сумма">
 
 
 
+
+<!-- ========================= -->
+<!-- Templates -->
+<!-- ========================= -->
 
 
 <section id="templates" class="page hidden">
 
 
+<header class="pageHeader">
+
+
 <h2>
-📚 Готовые шаблоны
+📚 Шаблоны
 </h2>
 
 
-<div class="templates">
+</header>
 
 
-<div class="card">
-🌱
-30 дней привычек
+
+
+<div class="templateGrid">
+
+
+<div class="templateCard"
+onclick="useTemplate('study')">
+
+📖
+
+<h3>
+Учёба
+</h3>
+
+<p>
+План подготовки
+</p>
+
 </div>
 
 
-<div class="card">
-💰
-Финансовый план
+
+
+<div class="templateCard"
+onclick="useTemplate('work')">
+
+💼
+
+<h3>
+Работа
+</h3>
+
+<p>
+Рабочий день
+</p>
+
 </div>
 
 
-<div class="card">
-📚
-План обучения
-</div>
 
 
-<div class="card">
+<div class="templateCard"
+onclick="useTemplate('sport')">
+
 🏋️
-Спорт программа
+
+<h3>
+Спорт
+</h3>
+
+<p>
+Тренировка
+</p>
+
 </div>
 
 
@@ -332,25 +779,19 @@ placeholder="Сумма">
 
 </section>
 
-
-
 </main>
-
 
 </div>
 
 
-
-
-
-<script src="js/storage.js"></script>
-<script src="js/habits.js"></script>
-<script src="js/tasks.js"></script>
-<script src="js/finance.js"></script>
-<script src="js/charts.js"></script>
+<script src="storage.js"></script>
+<script src="tasks.js"></script>
+<script src="habits.js"></script>
+<script src="finance.js"></script>
+<script src="goals.js"></script>
+<script src="templates.js"></script>
+<script src="charts.js"></script>
 <script src="app.js"></script>
 
-
 </body>
-
 </html>
