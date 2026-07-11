@@ -1,4 +1,4 @@
-const Storage = {
+const AppStorage = {
     get(key) {
         const data = localStorage.getItem(key);
 
@@ -8,13 +8,17 @@ const Storage = {
 
         try {
             return JSON.parse(data);
-        } catch (error) {
-            console.error("Ошибка чтения Storage:", error);
+        } catch (e) {
+            console.error("Storage read error:", e);
             return [];
         }
     },
 
     set(key, value) {
+        localStorage.setItem(key, JSON.stringify(value));
+    },
+
+    update(key, value) {
         localStorage.setItem(key, JSON.stringify(value));
     },
 
@@ -26,3 +30,7 @@ const Storage = {
         localStorage.clear();
     }
 };
+
+
+// совместимость со старыми файлами
+window.Storage = AppStorage;
