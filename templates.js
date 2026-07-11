@@ -1,380 +1,226 @@
-// =============================
-// LifeFlow Templates
-// Готовые планеры
-// =============================
+/*
+==================================
+ LifeFlow Ultimate
+ Templates Manager
+==================================
+*/
 
 
+const templates = {
 
-const templates = [
 
+    study: {
 
+        name:"Учёба",
 
-{
-    id:1,
+        tasks:[
 
-    name:"🌱 30 дней привычек",
+            "Повторить тему",
 
-    category:"Привычки",
+            "Сделать домашнее задание",
 
-    description:
-    "Создай полезные привычки и следи за серией дней",
+            "Подготовиться к тесту"
 
-    habits:[
+        ]
 
-        "Пить воду 💧",
+    },
 
-        "Читать 20 минут 📚",
 
-        "Спорт 🏋️",
 
-        "Ранний сон 😴"
+    work: {
 
-    ]
+        name:"Работа",
 
-},
+        tasks:[
 
+            "Проверить задачи",
 
+            "Сделать отчёт",
 
+            "Запланировать день"
 
-{
-    id:2,
+        ]
 
-    name:"💰 Финансовый план",
+    },
 
-    category:"Финансы",
 
-    description:
-    "Контроль доходов и расходов",
 
-    finance:[
+    sport: {
 
-        "Еда 🍔",
+        name:"Спорт",
 
-        "Транспорт 🚗",
+        tasks:[
 
-        "Дом 🏠",
+            "Разминка",
 
-        "Развлечения 🎮"
+            "Основная тренировка",
 
-    ]
+            "Растяжка"
 
-},
+        ]
 
+    }
 
 
+};
 
-{
-    id:3,
 
-    name:"📚 Учеба",
 
-    category:"Обучение",
 
-    description:
-    "План изучения нового навыка",
 
-    tasks:[
 
-        "Изучить тему",
+// Использовать шаблон
 
-        "Посмотреть урок",
 
-        "Сделать практику",
+function useTemplate(type){
 
-        "Повторить материал"
 
-    ]
+    let template = templates[type];
 
-},
 
 
+    if(!template){
 
-
-{
-    id:4,
-
-    name:"🏋️ Спорт программа",
-
-    category:"Здоровье",
-
-    description:
-    "30 дней тренировок",
-
-    habits:[
-
-        "Кардио",
-
-        "Силовая тренировка",
-
-        "Растяжка",
-
-        "Контроль питания"
-
-    ]
-
-},
-
-
-
-
-{
-    id:5,
-
-    name:"🎯 Цель на год",
-
-    category:"Цели",
-
-    description:
-    "Большая цель с этапами",
-
-    goals:[
-
-        "Определить цель",
-
-        "Разбить на шаги",
-
-        "Отслеживать прогресс"
-
-    ]
-
-}
-
-
-
-
-];
-
-
-
-
-
-
-
-
-function loadTemplate(id){
-
-
-
-    let template =
-    templates.find(
-        t=>t.id===id
-    );
-
-
-
-    if(!template)
-    return;
-
-
-
-
-    let data =
-    getData();
-
-
-
-
-
-    if(template.habits){
-
-
-
-        template.habits.forEach(
-        item=>{
-
-
-            data.habits.push({
-
-                id:Date.now()
-                +
-                Math.random(),
-
-
-                name:item,
-
-
-                done:false,
-
-
-                streak:0,
-
-
-                progress:0
-
-
-            });
-
-
-
-        });
-
+        return;
 
     }
 
 
 
-
-
-    if(template.tasks){
-
-
-
-        template.tasks.forEach(
-        item=>{
-
-
-            data.tasks.push({
-
-                id:Date.now()
-                +
-                Math.random(),
-
-
-                title:item,
-
-
-                priority:"medium",
-
-
-                done:false
-
-
-            });
-
-
-        });
+    let data = Storage.get();
 
 
 
-    }
+    template.tasks.forEach(task=>{
 
 
+        data.tasks.push({
 
 
+            id:Date.now()+Math.random(),
 
 
-    if(template.goals){
+            title:task,
 
 
-
-        template.goals.forEach(
-        item=>{
+            priority:"medium",
 
 
-            data.goals.push({
-
-                id:Date.now()
-                +
-                Math.random(),
+            date:"",
 
 
-                name:item,
+            completed:false,
 
 
-                progress:0
-
-
-            });
+            created:new Date().toLocaleDateString()
 
 
         });
-
-
-    }
-
-
-
-
-
-
-    saveData(data);
-
-
-
-    alert(
-        "Шаблон добавлен 🌸"
-    );
-
-
-
-    renderHabits();
-
-    renderTasks();
-
-}
-
-
-
-
-
-
-function showTemplates(){
-
-
-    let box =
-    document.getElementById(
-        "templates"
-    );
-
-
-
-    if(!box)
-    return;
-
-
-
-    box.innerHTML="";
-
-
-
-    templates.forEach(
-    template=>{
-
-
-        let card =
-        document.createElement(
-            "div"
-        );
-
-
-
-        card.className =
-        "card";
-
-
-
-        card.innerHTML = `
-
-
-        <h3>
-        ${template.name}
-        </h3>
-
-
-        <p>
-        ${template.description}
-        </p>
-
-
-        <button onclick="
-        loadTemplate(${template.id})
-        ">
-
-        Использовать
-
-        </button>
-
-
-        `;
-
-
-
-        box.appendChild(card);
 
 
 
     });
 
+
+
+    Storage.update(
+
+        "tasks",
+
+        data.tasks
+
+    );
+
+
+
+    alert(
+
+        "Шаблон «"+template.name+"» добавлен"
+
+    );
+
+
+
+    if(typeof loadTasks==="function"){
+
+        loadTasks();
+
+    }
+
+
+}
+
+
+
+
+
+
+
+// Создание своего шаблона
+
+
+function createTemplate(){
+
+
+    let name = prompt(
+
+        "Название шаблона"
+
+    );
+
+
+
+    let task = prompt(
+
+        "Первая задача"
+
+    );
+
+
+
+    if(!name || !task){
+
+        return;
+
+    }
+
+
+
+    let data = Storage.get();
+
+
+
+    data.templates.push({
+
+
+        id:Date.now(),
+
+
+        name:name,
+
+
+        tasks:[task]
+
+
+    });
+
+
+
+    Storage.update(
+
+        "templates",
+
+        data.templates
+
+    );
+
+
+
+    alert(
+
+        "Шаблон создан"
+
+    );
 
 
 }
