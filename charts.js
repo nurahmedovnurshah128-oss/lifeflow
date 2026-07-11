@@ -1,8 +1,9 @@
-// =============================
-// LifeFlow Charts
-// Графики и статистика
-// =============================
-
+/*
+==================================
+ LifeFlow Ultimate
+ Charts Manager
+==================================
+*/
 
 
 let mainChart = null;
@@ -10,70 +11,48 @@ let mainChart = null;
 
 
 
+// Создание графика
+
 function createChart(){
 
 
+    let canvas = document.getElementById(
 
-    let canvas =
-    document.getElementById(
         "mainChart"
+
     );
 
 
 
-    if(!canvas)
-    return;
+    if(!canvas)return;
 
 
 
-    let data =
-    getData();
+    let data = Storage.get();
 
 
 
-    let expenses = {};
+    let completedTasks = data.tasks.filter(
+
+        t=>t.completed
+
+    ).length;
 
 
 
-    data.finance.forEach(
-    item=>{
+    let activeTasks = data.tasks.filter(
 
+        t=>!t.completed
 
-        if(
-        item.type==="expense"
-        ){
-
-
-            if(
-            !expenses[item.category]
-            ){
-
-                expenses[item.category]=0;
-
-            }
-
-
-            expenses[item.category]
-            += item.amount;
-
-
-        }
-
-
-    });
+    ).length;
 
 
 
+    let habitsDone = data.habits.filter(
 
+        h=>h.completed
 
-    let labels =
-    Object.keys(expenses);
-
-
-
-    let values =
-    Object.values(expenses);
-
+    ).length;
 
 
 
@@ -87,53 +66,48 @@ function createChart(){
 
 
 
+    mainChart = new Chart(
 
-
-    mainChart =
-    new Chart(
         canvas,
+
         {
 
 
         type:"doughnut",
 
 
+
         data:{
 
 
-            labels:
-            labels.length
-            ? labels
-            : [
-                "Нет данных"
-              ],
+            labels:[
+
+                "Выполнено задач",
+
+                "Активные задачи",
+
+                "Привычки"
+
+            ],
 
 
 
             datasets:[{
 
 
-                data:
-                values.length
-                ? values
-                : [1],
+                data:[
 
+                    completedTasks,
 
+                    activeTasks,
 
-                backgroundColor:[
-
-                    "#ff8fab",
-                    "#ffd166",
-                    "#a8dadc",
-                    "#cdb4db",
-                    "#caffbf"
+                    habitsDone
 
                 ]
 
 
 
             }]
-
 
         },
 
@@ -151,15 +125,13 @@ function createChart(){
                 legend:{
 
 
-                    position:
-                    "bottom"
+                    position:"bottom"
 
 
                 }
 
 
             }
-
 
 
         }
@@ -178,57 +150,39 @@ function createChart(){
 
 
 
-
-function updateStatistics(){
-
+// Обновление графика
 
 
-    let data =
-    getData();
+function updateChart(){
 
 
-
-    let totalTasks =
-    data.tasks.length;
-
-
-
-    let doneTasks =
-    data.tasks.filter(
-        t=>t.done
-    ).length;
-
-
-
-
-    let percent = 0;
-
-
-
-    if(totalTasks>0){
-
-
-        percent =
-        Math.round(
-            doneTasks /
-            totalTasks *
-            100
-        );
-
-
-    }
-
-
-
-    console.log(
-        "Прогресс:",
-        percent+"%"
-    );
-
-
-
-    return percent;
-
+    createChart();
 
 
 }
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+    setTimeout(()=>{
+
+
+        createChart();
+
+
+    },500);
+
+
+
+});
