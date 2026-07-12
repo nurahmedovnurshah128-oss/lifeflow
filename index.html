@@ -1,52 +1,45 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
 
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>LifeFlow Ultimate</title>
 
-<meta name="description"
-content="Современный планер задач, привычек, целей и финансов">
+<meta name="description" content="Современный планер задач, привычек, целей и финансов">
 
-<meta name="theme-color"
-content="#2d1b3d">
+<meta name="theme-color" content="#2d1b3d">
 
 
+<link rel="stylesheet" href="./style.css">
 
-<link rel="icon" href="data:,">
- 
-<link rel="preconnect"
-href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com">
 
-<link rel="preconnect"
-href="https://fonts.gstatic.com"
-crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet"
-href="style.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
 
+
 </head>
 
-<body>
 
+<body>
 
 
 <div id="authScreen">
 
 <div class="auth-card">
+
 
 <div class="logo">
 
@@ -60,79 +53,83 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
 
 </div>
 
+
+
 <div class="auth-tabs">
 
-<button
-class="tab active"
-data-tab="login">
-
+<button class="tab active" data-tab="login">
 Вход
-
 </button>
 
-<button
-class="tab"
-data-tab="register">
 
+<button class="tab" data-tab="register">
 Регистрация
-
 </button>
+
 
 </div>
 
-<form
-id="loginForm">
 
-<input
+
+<form id="loginForm">
+
+
+<input 
 type="email"
 id="loginEmail"
 placeholder="Email">
+
 
 <input
 type="password"
 id="loginPassword"
 placeholder="Пароль">
 
-<button
-type="submit">
+
+<button type="submit">
 
 Войти
 
 </button>
 
+
 </form>
 
-<form
-id="registerForm"
-style="display:none">
+
+
+<form id="registerForm" style="display:none">
+
 
 <input
 type="text"
 id="registerName"
 placeholder="Имя">
 
+
 <input
 type="email"
 id="registerEmail"
 placeholder="Email">
+
 
 <input
 type="password"
 id="registerPassword"
 placeholder="Пароль">
 
-<button
-type="submit">
+
+<button type="submit">
 
 Создать аккаунт
 
 </button>
 
+
 </form>
 
-<button
-id="googleLogin"
-class="google-btn">
+
+
+<button id="googleLogin" class="google-btn">
 
 <i class="fab fa-google"></i>
 
@@ -140,29 +137,37 @@ class="google-btn">
 
 </button>
 
+
+
 </div>
 
 </div>
+
+
+
+
 
 <div id="app">
 
+
+
 <aside id="sidebar">
+
 
 <div class="sidebar-top">
 
 <h2>
-
 LifeFlow
-
 </h2>
 
 </div>
 
+
+
 <nav>
 
-<button
-class="menu active"
-data-page="dashboard">
+
+<button class="menu active" data-page="dashboard">
 
 <i class="fa-solid fa-house"></i>
 
@@ -170,9 +175,9 @@ data-page="dashboard">
 
 </button>
 
-<button
-class="menu"
-data-page="tasks">
+
+
+<button class="menu" data-page="tasks">
 
 <i class="fa-solid fa-list-check"></i>
 
@@ -180,29 +185,9 @@ data-page="tasks">
 
 </button>
 
-<button
-class="menu"
-data-page="calendar">
 
-<i class="fa-solid fa-calendar"></i>
 
-Календарь
-
-</button>
-
-<button
-class="menu"
-data-page="kanban">
-
-<i class="fa-solid fa-table-columns"></i>
-
-Канбан
-
-</button>
-
-<button
-class="menu"
-data-page="habits">
+<button class="menu" data-page="habits">
 
 <i class="fa-solid fa-fire"></i>
 
@@ -210,9 +195,9 @@ data-page="habits">
 
 </button>
 
-<button
-class="menu"
-data-page="goals">
+
+
+<button class="menu" data-page="goals">
 
 <i class="fa-solid fa-bullseye"></i>
 
@@ -220,9 +205,9 @@ data-page="goals">
 
 </button>
 
-<button
-class="menu"
-data-page="finance">
+
+
+<button class="menu" data-page="finance">
 
 <i class="fa-solid fa-wallet"></i>
 
@@ -230,9 +215,9 @@ data-page="finance">
 
 </button>
 
-<button
-class="menu"
-data-page="statistics">
+
+
+<button class="menu" data-page="statistics">
 
 <i class="fa-solid fa-chart-column"></i>
 
@@ -240,9 +225,9 @@ data-page="statistics">
 
 </button>
 
-<button
-class="menu"
-data-page="templates">
+
+
+<button class="menu" data-page="templates">
 
 <i class="fa-solid fa-layer-group"></i>
 
@@ -250,9 +235,9 @@ data-page="templates">
 
 </button>
 
-<button
-class="menu"
-data-page="ai">
+
+
+<button class="menu" data-page="ai">
 
 <i class="fa-solid fa-robot"></i>
 
@@ -260,9 +245,9 @@ AI
 
 </button>
 
-<button
-class="menu"
-data-page="settings">
+
+
+<button class="menu" data-page="settings">
 
 <i class="fa-solid fa-gear"></i>
 
@@ -270,13 +255,14 @@ data-page="settings">
 
 </button>
 
-</nav>
 
-</aside>
 
 </nav>
+
+
 
 <div class="sidebar-bottom">
+
 
 <button id="exportData">
 
@@ -295,13 +281,15 @@ data-page="settings">
 
 </button>
 
+
 </div>
+
 
 </aside>
 
 
-<main id="main">
 
+<main id="main">
 
 <header class="topbar">
 
@@ -324,13 +312,16 @@ placeholder="Поиск...">
 </div>
 
 
+
 <div class="user-panel">
+
 
 <button id="themeToggle">
 
 <i class="fa-solid fa-moon"></i>
 
 </button>
+
 
 
 <div class="notifications">
@@ -344,42 +335,43 @@ placeholder="Поиск...">
 </div>
 
 
+
 <div class="profile">
+
 
 <img 
 id="userAvatar"
 src="data:,">
 
 
+
 <div>
 
 <b id="userName">
-
 Пользователь
-
 </b>
 
+
 <small id="userEmail">
-
 email@example.com
-
 </small>
 
-</div>
 
 </div>
 
 
 </div>
 
+
+</div>
 
 </header>
 
 
 
-<section 
-id="dashboard"
-class="page active">
+
+
+<section id="dashboard" class="page active">
 
 
 <div class="welcome-card">
@@ -398,26 +390,27 @@ User
 
 
 <p>
-
 Сегодня отличный день для новых достижений.
-
 </p>
 
+
 </div>
+
 
 
 <div class="date-box">
 
 <i class="fa-solid fa-calendar-day"></i>
 
-<span id="currentDate">
+<span id="currentDate"></span>
 
-</span>
+
+</div>
+
 
 </div>
 
 
-</div>
 
 
 
@@ -432,23 +425,22 @@ User
 
 </div>
 
+
 <div>
 
 <h3 id="totalTasks">
-
 0
-
 </h3>
 
 <p>
-
 Всего задач
-
 </p>
 
 </div>
 
 </div>
+
+
 
 
 
@@ -460,23 +452,22 @@ User
 
 </div>
 
+
 <div>
 
 <h3 id="completedTasks">
-
 0
-
 </h3>
 
 <p>
-
 Выполнено
-
 </p>
 
 </div>
 
 </div>
+
+
 
 
 
@@ -488,23 +479,22 @@ User
 
 </div>
 
+
 <div>
 
 <h3 id="habitProgress">
-
 0%
-
 </h3>
 
 <p>
-
 Привычки
-
 </p>
 
 </div>
 
 </div>
+
+
 
 
 
@@ -516,18 +506,15 @@ User
 
 </div>
 
+
 <div>
 
 <h3 id="balance">
-
 0
-
 </h3>
 
 <p>
-
 Баланс
-
 </p>
 
 </div>
@@ -535,75 +522,82 @@ User
 </div>
 
 
+
 </div>
+
+
+
 
 
 
 <div class="dashboard-grid">
 
 
+
 <div class="card today-card">
+
 
 <div class="card-header">
 
+
 <h2>
-
 Сегодня
-
 </h2>
 
 
-<button 
-id="quickAddTask">
-
+<button id="quickAddTask">
 +
-
 </button>
 
-</div>
-
-
-<div id="todayTasks">
 
 </div>
 
 
+
+<div id="todayTasks"></div>
+
+
 </div>
+
+
 
 
 
 <div class="card progress-card">
 
+
 <div class="card-header">
 
 <h2>
-
 Прогресс
-
 </h2>
 
 </div>
 
 
-<canvas id="progressChart">
-
-</canvas>
+<canvas id="progressChart"></canvas>
 
 
 </div>
 
 
 </div>
+
 
 
 </section>
 
-<section 
-id="tasks"
-class="page">
+
+
+
+
+
+
+<section id="tasks" class="page">
 
 
 <div class="page-header">
+
 
 <div>
 
@@ -615,12 +609,12 @@ class="page">
 Управляй своими делами и планами
 </p>
 
+
 </div>
 
 
-<button 
-class="primary-btn"
-id="addTaskOpen">
+
+<button class="primary-btn" id="addTaskOpen">
 
 <i class="fa-solid fa-plus"></i>
 
@@ -628,7 +622,10 @@ id="addTaskOpen">
 
 </button>
 
+
 </div>
+
+
 
 
 
@@ -637,57 +634,50 @@ id="addTaskOpen">
 
 <div class="filters">
 
-<button 
-class="filter active"
-data-filter="all">
+
+<button class="filter active" data-filter="all">
 
 Все
 
 </button>
 
 
-<button 
-class="filter"
-data-filter="active">
+<button class="filter" data-filter="active">
 
 Активные
 
 </button>
 
 
-<button 
-class="filter"
-data-filter="completed">
+<button class="filter" data-filter="completed">
 
 Выполненные
 
 </button>
 
+
 </div>
+
 
 
 
 <select id="taskSort">
 
+
 <option value="date">
-
 По дате
-
 </option>
 
 
 <option value="priority">
-
 По приоритету
-
 </option>
 
 
 <option value="name">
-
 По названию
-
 </option>
+
 
 </select>
 
@@ -696,47 +686,8 @@ data-filter="completed">
 
 
 
-<div id="taskContainer"
-class="task-list">
 
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section
-id="calendar"
-class="page">
-
-
-<div class="page-header">
-
-<div>
-
-<h1>
-
-Календарь
-
-</h1>
-
-<p>
-
-Планируй события
-
-</p>
-
-</div>
-
-</div>
-
-
-
-<div id="calendarContainer">
+<div id="taskContainer" class="task-list">
 
 </div>
 
@@ -747,146 +698,29 @@ class="page">
 
 
 
-<section
-id="kanban"
-class="page">
+<section id="habits" class="page">
 
 
 <div class="page-header">
 
-<div>
-
-<h1>
-
-Канбан
-
-</h1>
-
-<p>
-
-Управляй процессом работы
-
-</p>
-
-</div>
-
-
-<button 
-class="primary-btn"
-id="addColumn">
-
-+
-
-Колонка
-
-</button>
-
-
-</div>
-
-
-
-<div class="kanban-board">
-
-
-<div 
-class="kanban-column"
-data-status="todo">
-
-
-<h3>
-
-Нужно сделать
-
-</h3>
-
-
-<div class="kanban-items">
-
-</div>
-
-
-</div>
-
-
-
-<div 
-class="kanban-column"
-data-status="progress">
-
-
-<h3>
-
-В процессе
-
-</h3>
-
-
-<div class="kanban-items">
-
-</div>
-
-
-</div>
-
-
-
-<div 
-class="kanban-column"
-data-status="done">
-
-
-<h3>
-
-Готово
-
-</h3>
-
-
-<div class="kanban-items">
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section
-id="habits"
-class="page">
-
-
-<div class="page-header">
 
 <div>
 
 <h1>
-
 Привычки
-
 </h1>
 
+
 <p>
-
 Строй дисциплину каждый день
-
 </p>
+
 
 </div>
 
 
-<button
-class="primary-btn"
-id="addHabit">
+
+<button class="primary-btn" id="addHabit">
 
 <i class="fa-solid fa-plus"></i>
 
@@ -899,9 +733,8 @@ id="addHabit">
 
 
 
-<div 
-id="habitsContainer"
-class="habits-grid">
+
+<div id="habitsContainer" class="habits-grid">
 
 </div>
 
@@ -912,9 +745,7 @@ class="habits-grid">
 
 
 
-<section
-id="goals"
-class="page">
+<section id="goals" class="page">
 
 
 <div class="page-header">
@@ -923,23 +754,20 @@ class="page">
 <div>
 
 <h1>
-
 Цели
-
 </h1>
 
+
 <p>
-
 Большие цели из маленьких шагов
-
 </p>
+
 
 </div>
 
 
-<button
-class="primary-btn"
-id="addGoal">
+
+<button class="primary-btn" id="addGoal">
 
 <i class="fa-solid fa-plus"></i>
 
@@ -952,43 +780,31 @@ id="addGoal">
 
 
 
-<div 
-id="goalsContainer"
-class="goals-grid">
 
+<div id="goalsContainer" class="goals-grid">
 
 </div>
 
 
 </section>
-
-<section
-id="finance"
-class="page">
-
+<section id="finance" class="page">
 
 <div class="page-header">
 
 <div>
 
 <h1>
-
 Финансы
-
 </h1>
 
 <p>
-
 Контроль доходов и расходов
-
 </p>
 
 </div>
 
 
-<button
-class="primary-btn"
-id="addFinance">
+<button class="primary-btn" id="addFinance">
 
 <i class="fa-solid fa-plus"></i>
 
@@ -1004,75 +820,40 @@ id="addFinance">
 <div class="finance-summary">
 
 
-<div class="money-card income">
-
-<i class="fa-solid fa-arrow-up"></i>
-
-
-<div>
+<div class="money-card">
 
 <span>
-
 Доходы
-
 </span>
 
 <h2 id="totalIncome">
-
 0
-
 </h2>
 
 </div>
 
 
-</div>
-
-
-
-<div class="money-card expense">
-
-<i class="fa-solid fa-arrow-down"></i>
-
-
-<div>
+<div class="money-card">
 
 <span>
-
 Расходы
-
 </span>
 
 <h2 id="totalExpense">
-
 0
-
 </h2>
 
 </div>
 
 
-</div>
-
-
-
-<div class="money-card balance">
-
-<i class="fa-solid fa-wallet"></i>
-
-
-<div>
+<div class="money-card">
 
 <span>
-
 Баланс
-
 </span>
 
 <h2 id="financeBalance">
-
 0
-
 </h2>
 
 </div>
@@ -1081,25 +862,11 @@ id="addFinance">
 </div>
 
 
-</div>
+
+<canvas id="financeChart"></canvas>
 
 
-
-<div class="card">
-
-<canvas id="financeChart">
-
-</canvas>
-
-</div>
-
-
-
-<div 
-id="financeContainer"
-class="finance-list">
-
-</div>
+<div id="financeContainer"></div>
 
 
 </section>
@@ -1108,37 +875,15 @@ class="finance-list">
 
 
 
-
-
-<section
-id="statistics"
-class="page">
-
+<section id="statistics" class="page">
 
 <div class="page-header">
 
-
-<div>
-
 <h1>
-
 Статистика
-
 </h1>
 
-
-<p>
-
-Анализ продуктивности
-
-</p>
-
-
 </div>
-
-
-</div>
-
 
 
 <div class="charts-grid">
@@ -1146,59 +891,23 @@ class="page">
 
 <div class="card">
 
-
-<h3>
-
-Задачи
-
-</h3>
-
-
-<canvas id="tasksStatistics">
-
-</canvas>
-
+<canvas id="tasksStatistics"></canvas>
 
 </div>
-
 
 
 <div class="card">
 
-
-<h3>
-
-Привычки
-
-</h3>
-
-
-<canvas id="habitsStatistics">
-
-</canvas>
-
+<canvas id="habitsStatistics"></canvas>
 
 </div>
-
 
 
 <div class="card">
 
-
-<h3>
-
-Финансы
-
-</h3>
-
-
-<canvas id="moneyStatistics">
-
-</canvas>
-
+<canvas id="moneyStatistics"></canvas>
 
 </div>
-
 
 
 </div>
@@ -1212,40 +921,24 @@ class="page">
 
 
 
-
-<section
-id="templates"
-class="page">
-
+<section id="templates" class="page">
 
 <div class="page-header">
-
 
 <div>
 
 <h1>
-
 Шаблоны
-
 </h1>
 
-
 <p>
-
 Быстро создавай планы
-
 </p>
-
 
 </div>
 
 
-
-<button
-class="primary-btn"
-id="createTemplate">
-
-<i class="fa-solid fa-plus"></i>
+<button class="primary-btn" id="createTemplate">
 
 Создать шаблон
 
@@ -1256,13 +949,7 @@ id="createTemplate">
 
 
 
-
-<div
-id="templatesContainer"
-class="templates-grid">
-
-
-</div>
+<div id="templatesContainer"></div>
 
 
 </section>
@@ -1273,60 +960,23 @@ class="templates-grid">
 
 
 
+<section id="ai" class="page">
 
-<section
-id="ai"
-class="page">
-
-
-<div class="page-header">
-
-
-<div>
 
 <h1>
-
 AI Помощник
-
 </h1>
-
-
-<p>
-
-Анализ твоей продуктивности
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
 
 
 <div class="ai-container">
 
 
-<div class="ai-avatar">
-
-<i class="fa-solid fa-robot">
-
-</i>
-
-</div>
-
-
-
-<div 
-id="aiMessages"
-class="ai-messages">
+<div id="aiMessages">
 
 
 <div class="ai-message">
 
-Привет! Я помогу тебе планировать день.
+Привет! Я помогу планировать день.
 
 </div>
 
@@ -1334,22 +984,14 @@ class="ai-messages">
 </div>
 
 
+<div>
+
+<input id="aiInput" placeholder="Напиши вопрос...">
 
 
-<div class="ai-input">
+<button id="aiSend">
 
-
-<input
-id="aiInput"
-placeholder="Напиши вопрос...">
-
-
-<button
-id="aiSend">
-
-<i class="fa-solid fa-paper-plane">
-
-</i>
+➤
 
 </button>
 
@@ -1368,38 +1010,12 @@ id="aiSend">
 
 
 
+<section id="settings" class="page">
 
-<section
-id="settings"
-class="page">
-
-
-<div class="page-header">
-
-
-<div>
 
 <h1>
-
 Настройки
-
 </h1>
-
-
-<p>
-
-Настрой приложение под себя
-
-</p>
-
-
-</div>
-
-
-</div>
-
-
-
 
 
 <div class="settings-card">
@@ -1408,96 +1024,37 @@ class="page">
 <div class="setting-item">
 
 
-<div>
-
 <h3>
-
 Тёмная тема
-
 </h3>
 
 
-<p>
-
-Изменить оформление
-
-</p>
+<input type="checkbox" id="darkMode">
 
 
 </div>
-
-
-
-<label class="switch">
-
-
-<input
-type="checkbox"
-id="darkMode">
-
-
-<span>
-
-</span>
-
-
-</label>
-
-
-</div>
-
-
-
 
 
 <div class="setting-item">
 
 
-<div>
-
-
 <h3>
-
 Уведомления
-
 </h3>
 
 
-<p>
-
-Напоминания о задачах
-
-</p>
+<input type="checkbox" id="notificationsToggle">
 
 
 </div>
-
-
-
-<label class="switch">
-
-
-<input
-type="checkbox"
-id="notificationsToggle">
-
-
-<span>
-
-</span>
-
-
-</label>
-
-
-</div>
-
 
 
 </div>
 
 
 </section>
+
+
 
 </main>
 
@@ -1508,104 +1065,50 @@ id="notificationsToggle">
 
 
 
-<!-- =========================
- MODALS
-========================= -->
 
 
-<div 
-id="taskModal"
-class="modal">
+<!-- Модальное окно задачи -->
+
+<div id="taskModal" class="modal">
 
 
 <div class="modal-content">
 
 
-<div class="modal-header">
-
-
 <h2>
-
 Новая задача
-
 </h2>
 
 
-<button
-class="close-modal">
-
-×
+<input id="taskTitle" placeholder="Название">
 
 
-</button>
-
-
-</div>
-
-
-
-
-<input
-id="taskTitle"
-placeholder="Название задачи">
-
-
-
-<textarea
-id="taskDescription"
-placeholder="Описание">
-
-</textarea>
-
-
-
-<div class="modal-row">
+<textarea id="taskDescription" placeholder="Описание"></textarea>
 
 
 <select id="taskPriority">
 
-
 <option value="low">
-
-Низкий приоритет
-
+Низкий
 </option>
-
 
 <option value="medium">
-
-Средний приоритет
-
+Средний
 </option>
-
 
 <option value="high">
-
-Высокий приоритет
-
+Высокий
 </option>
-
 
 </select>
 
 
-
-<input
-type="datetime-local"
-id="taskDate">
+<input type="datetime-local" id="taskDate">
 
 
-</div>
-
-
-
-<button
-id="saveTask"
-class="primary-btn">
-
+<button id="saveTask" class="primary-btn">
 
 Создать
-
 
 </button>
 
@@ -1621,60 +1124,30 @@ class="primary-btn">
 
 
 
-
-<div 
-id="habitModal"
-class="modal">
+<div id="habitModal" class="modal">
 
 
 <div class="modal-content">
 
 
-<div class="modal-header">
-
-
 <h2>
-
 Новая привычка
-
 </h2>
 
 
-<button
-class="close-modal">
-
-×
+<input id="habitName" placeholder="Название">
 
 
-</button>
+<input id="habitDays" type="number" placeholder="Дни">
 
 
-</div>
-
-
-
-<input
-id="habitName"
-placeholder="Название привычки">
-
-
-
-<input
-type="number"
-id="habitDays"
-placeholder="Количество дней">
-
-
-<button
-id="saveHabit"
-class="primary-btn">
+<button id="saveHabit">
 
 Создать
 
 </button>
 
 
-
 </div>
 
 
@@ -1686,61 +1159,27 @@ class="primary-btn">
 
 
 
-
-
-<div 
-id="goalModal"
-class="modal">
+<div id="goalModal" class="modal">
 
 
 <div class="modal-content">
 
 
-<div class="modal-header">
-
-
 <h2>
-
 Новая цель
-
 </h2>
 
 
-<button
-class="close-modal">
-
-×
+<input id="goalTitle" placeholder="Название">
 
 
-</button>
+<textarea id="goalDescription"></textarea>
 
 
-</div>
+<input id="goalDeadline" type="date">
 
 
-
-<input
-id="goalTitle"
-placeholder="Название цели">
-
-
-
-<textarea
-id="goalDescription"
-placeholder="Описание">
-
-</textarea>
-
-
-<input
-type="date"
-id="goalDeadline">
-
-
-
-<button
-id="saveGoal"
-class="primary-btn">
+<button id="saveGoal">
 
 Создать
 
@@ -1758,77 +1197,40 @@ class="primary-btn">
 
 
 
-
-
-<div 
-id="financeModal"
-class="modal">
+<div id="financeModal" class="modal">
 
 
 <div class="modal-content">
 
 
-<div class="modal-header">
-
-
 <h2>
-
 Финансовая операция
-
 </h2>
 
 
-<button
-class="close-modal">
-
-×
+<input id="financeTitle" placeholder="Название">
 
 
-</button>
+<input id="financeAmount" type="number" placeholder="Сумма">
 
 
-</div>
-
-
-
-<input
-id="financeTitle"
-placeholder="Название">
-
-
-
-<input
-type="number"
-id="financeAmount"
-placeholder="Сумма">
-
-
-
-<select
-id="financeType">
+<select id="financeType">
 
 
 <option value="income">
-
 Доход
-
 </option>
 
 
 <option value="expense">
-
 Расход
-
 </option>
 
 
 </select>
 
 
-
-<button
-id="saveFinance"
-class="primary-btn">
+<button id="saveFinance">
 
 Сохранить
 
@@ -1846,29 +1248,31 @@ class="primary-btn">
 
 
 
-
-
-<!-- Notification popup -->
-
-<div
-id="toast">
-
-</div>
+<div id="toast"></div>
 
 
 
 
 
-<!--
+
+<!-- Firebase -->
+
 <script type="module" src="./firebase.js"></script>
+
 <script type="module" src="./storage.js"></script>
+
 <script type="module" src="./auth.js"></script>
--->
-<!-- Application Core -->
+
+
+
+<!-- Основной код -->
+
 <script src="./app.js"></script>
 
 
-<!-- Modules -->
+
+<!-- Модули -->
+
 <script type="module" src="./tasks.js"></script>
 
 <script type="module" src="./habits.js"></script>
@@ -1879,10 +1283,10 @@ id="toast">
 
 <script type="module" src="./templates.js"></script>
 
-
-<!-- Charts -->
 <script type="module" src="./charts.js"></script>
 
 
+
 </body>
+
 </html>
