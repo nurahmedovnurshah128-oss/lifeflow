@@ -1,240 +1,1930 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>LifeFlow — Планер задач, привычек и финансов</title>
-<meta name="description" content="LifeFlow — твой личный планер: задачи, привычки, цели и финансы в одном месте. Работает офлайн, устанавливается как приложение.">
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4A2C3B">
-<link rel="icon" href="assets/icons/icon-192.png">
-<link rel="apple-touch-icon" href="assets/icons/icon-192.png">
-<link rel="stylesheet" href="style.css">
-<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<meta name="viewport"
+content="width=device-width,initial-scale=1.0">
+
+<title>LifeFlow Ultimate</title>
+
+<meta name="description"
+content="Современный планер задач, привычек, целей и финансов">
+
+<meta name="theme-color"
+content="#2d1b3d">
+
+<link rel="manifest"
+href="manifest.json">
+
+<link rel="icon"
+href="icons/icon-192.png">
+
+<link rel="preconnect"
+href="https://fonts.googleapis.com">
+
+<link rel="preconnect"
+href="https://fonts.gstatic.com"
+crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+rel="stylesheet">
+
+<link rel="stylesheet"
+href="style.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+
 </head>
+
 <body>
+
+<div id="loader">
+
+<div class="loader-logo">
+
+LifeFlow
+
+</div>
+
+<div class="loader-progress">
+
+<div class="loader-bar"></div>
+
+</div>
+
+</div>
+
+<div id="authScreen">
+
+<div class="auth-card">
+
+<div class="logo">
+
+<i class="fa-solid fa-layer-group"></i>
+
+<h1>LifeFlow</h1>
+
+<p>
+Управляй жизнью профессионально
+</p>
+
+</div>
+
+<div class="auth-tabs">
+
+<button
+class="tab active"
+data-tab="login">
+
+Вход
+
+</button>
+
+<button
+class="tab"
+data-tab="register">
+
+Регистрация
+
+</button>
+
+</div>
+
+<form
+id="loginForm">
+
+<input
+type="email"
+id="loginEmail"
+placeholder="Email">
+
+<input
+type="password"
+id="loginPassword"
+placeholder="Пароль">
+
+<button
+type="submit">
+
+Войти
+
+</button>
+
+</form>
+
+<form
+id="registerForm"
+style="display:none">
+
+<input
+type="text"
+id="registerName"
+placeholder="Имя">
+
+<input
+type="email"
+id="registerEmail"
+placeholder="Email">
+
+<input
+type="password"
+id="registerPassword"
+placeholder="Пароль">
+
+<button
+type="submit">
+
+Создать аккаунт
+
+</button>
+
+</form>
+
+<button
+id="googleLogin"
+class="google-btn">
+
+<i class="fab fa-google"></i>
+
+Войти через Google
+
+</button>
+
+</div>
+
+</div>
 
 <div id="app">
 
-  <header>
-    <div class="brand"><img src="assets/images/logo.png" alt="" class="brand-logo" onerror="this.style.display='none'">Life<span>Flow</span></div>
-    <div class="header-right">
-      <div class="date-pill" id="monthLabel">—</div>
-      <div class="icon-btn" id="themeToggle" title="Тема">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></svg>
-      </div>
-    </div>
-  </header>
+<aside id="sidebar">
 
-  <div class="week-strip" id="weekStrip"></div>
+<div class="sidebar-top">
 
-  <!-- ============ PAGE: TODAY ============ -->
-  <div class="page active" id="page-today">
-    <div class="progress-hero">
-      <div class="ring-wrap">
-        <svg width="84" height="84">
-          <circle class="ring-bg" cx="42" cy="42" r="36"></circle>
-          <circle class="ring-fg" id="dayRing" cx="42" cy="42" r="36" stroke-dasharray="226" stroke-dashoffset="226"></circle>
-        </svg>
-        <div class="ring-label" id="dayRingLabel">0%</div>
-      </div>
-      <div class="hero-text">
-        <div class="h-title" id="heroTitle">Пока пусто</div>
-        <div class="h-sub" id="heroSub">Добавь задачи или привычки</div>
-      </div>
-    </div>
+<h2>
 
-    <div class="section">
-      <h2>Задачи на день <span class="count" id="taskCount">0</span></h2>
-      <div class="filter-row" id="taskFilterRow"></div>
-      <div id="taskList"></div>
-      <div class="empty-hint" id="taskEmptyHint" style="display:none;">Задач пока нет — добавь первую ✨</div>
-      <div class="add-row">
-        <input type="text" id="taskInput" placeholder="Новая задача..." maxlength="80">
-        <select id="taskPrioSelect">
-          <option value="low">Низкий</option>
-          <option value="mid" selected>Средний</option>
-          <option value="high">Высокий</option>
-        </select>
-        <select id="taskCatSelect"></select>
-        <button class="add-btn" id="addTaskBtn">+</button>
-      </div>
-    </div>
+LifeFlow
 
-    <div class="section">
-      <h2>Заметка дня</h2>
-      <input type="text" id="noteInput" class="goal-input" placeholder="Что сегодня важно запомнить?" maxlength="150">
-    </div>
-  </div>
-
-  <!-- ============ PAGE: HABITS ============ -->
-  <div class="page" id="page-habits">
-    <div class="section">
-      <h2>Цели недели</h2>
-      <div id="weekGoals"></div>
-    </div>
-    <div class="section" style="overflow-x:auto;">
-      <h2>Привычки недели <span class="count" id="habitWeekLabel">—</span></h2>
-      <table class="habit-table" id="habitTable">
-        <thead><tr id="habitHeadRow"></tr></thead>
-        <tbody id="habitBody"></tbody>
-      </table>
-      <div class="empty-hint" id="habitEmptyHint" style="display:none;">Пока нет привычек</div>
-      <div class="add-habit-row">
-        <input type="text" id="habitInput" placeholder="Новая привычка..." maxlength="40">
-        <select id="habitTargetSelect">
-          <option value="1">1×/день</option>
-          <option value="2">2×/день</option>
-          <option value="3">3×/день</option>
-        </select>
-        <button class="add-btn" id="addHabitBtn">+</button>
-      </div>
-    </div>
-    <div class="section">
-      <h2>Прогресс недели</h2>
-      <div class="chart-box" id="weekChart"></div>
-      <div class="chart-labels" id="weekChartLabels"></div>
-    </div>
-  </div>
-
-  <!-- ============ PAGE: GOALS ============ -->
-  <div class="page" id="page-goals">
-    <div class="section">
-      <h2>Долгосрочные цели <span class="count" id="goalCount">0</span></h2>
-      <div id="goalList"></div>
-      <div class="empty-hint" id="goalEmptyHint" style="display:none;">Пока нет целей — добавь первую</div>
-      <div class="add-row">
-        <input type="text" id="goalInput" placeholder="Например: Накопить на отпуск" maxlength="80">
-        <input type="date" id="goalDeadline">
-        <button class="add-btn" id="addGoalBtn">+</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- ============ PAGE: FINANCE ============ -->
-  <div class="page" id="page-finance">
-    <div class="section">
-      <h2>Месяц <span class="count" id="financeMonthLabel">—</span></h2>
-      <div class="money-grid">
-        <div class="money-stat"><div class="m-label">Доходы</div><div class="m-value m-income" id="fIncome">0 ₽</div></div>
-        <div class="money-stat"><div class="m-label">Расходы</div><div class="m-value m-expense" id="fExpense">0 ₽</div></div>
-        <div class="money-stat"><div class="m-label">Баланс</div><div class="m-value m-balance" id="fBalance">0 ₽</div></div>
-        <div class="money-stat"><div class="m-label">Бюджет</div><div class="m-value m-budget" id="fBudgetLeft">0 ₽</div></div>
-      </div>
-      <div class="budget-bar-wrap">
-        <div class="budget-bar-label"><span>Бюджет месяца</span><span id="budgetPct">0%</span></div>
-        <div class="budget-bar-bg"><div class="budget-bar-fg" id="budgetBar" style="width:0%"></div></div>
-      </div>
-      <div class="add-row" style="margin-top:0;">
-        <input type="number" id="budgetInput" placeholder="Бюджет на месяц, ₽" style="flex:1;">
-        <button class="add-btn" id="setBudgetBtn" style="width:auto;padding:0 14px;font-size:13px;">OK</button>
-      </div>
-    </div>
-    <div class="section">
-      <h2>Расходы по категориям</h2>
-      <div class="chart-box" id="expenseChart"></div>
-      <div class="chart-labels" id="expenseChartLabels" style="font-size:9px;"></div>
-    </div>
-    <div class="section">
-      <h2>Операции <span class="count" id="txCount">0</span></h2>
-      <div class="seg-control" id="txFilter">
-        <div class="seg-btn active" data-f="all">Все</div>
-        <div class="seg-btn" data-f="in">Доходы</div>
-        <div class="seg-btn" data-f="out">Расходы</div>
-      </div>
-      <div id="txList"></div>
-      <div class="empty-hint" id="txEmptyHint" style="display:none;">Пока нет операций</div>
-    </div>
-  </div>
-
-  <!-- ============ PAGE: STATS ============ -->
-  <div class="page" id="page-stats">
-    <div class="section">
-      <h2>Аналитика недели</h2>
-      <div id="statsGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;"></div>
-    </div>
-    <div class="section">
-      <h2>Прогресс месяца</h2>
-      <div class="chart-box" id="monthChart"></div>
-      <div class="chart-labels" id="monthChartLabels" style="font-size:8px;"></div>
-    </div>
-    <div class="section">
-      <h2>Шаблоны дня</h2>
-      <div class="section-sub">Сохрани текущий набор задач как шаблон и применяй одним нажатием</div>
-      <div id="templateList"></div>
-      <div class="add-row">
-        <input type="text" id="templateNameInput" placeholder="Название шаблона" maxlength="40">
-        <button class="add-btn" id="saveTemplateBtn" style="width:auto;padding:0 14px;font-size:13px;">Сохранить</button>
-      </div>
-    </div>
-    <div class="section">
-      <h2>Данные</h2>
-      <div style="font-size:13px;color:var(--ink-soft);line-height:1.6;margin-bottom:12px;">Все данные сохраняются автоматически на этом устройстве.</div>
-      <div class="modal-actions" style="margin-top:0;">
-        <button class="btn-secondary" id="exportBtn">Экспорт</button>
-        <button class="btn-secondary" id="importBtn">Импорт</button>
-      </div>
-      <input type="file" id="importFile" accept="application/json" style="display:none;">
-      <button id="resetBtn" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--danger);background:transparent;color:var(--danger);font-weight:700;font-size:13px;cursor:pointer;margin-top:10px;">Очистить все данные</button>
-    </div>
-  </div>
+</h2>
 
 </div>
-
-<div class="fab" id="quickAddFab" title="Быстрая операция">₴</div>
-
-<div class="modal-overlay" id="moneyModal">
-  <div class="modal-box">
-    <h3>Новая операция</h3>
-    <div class="seg-control" id="moneyTypeSeg">
-      <div class="seg-btn active" data-type="out">Расход</div>
-      <div class="seg-btn" data-type="in">Доход</div>
-    </div>
-    <div class="modal-field"><label>Сумма, ₽</label><input type="number" id="moneyAmount" placeholder="0"></div>
-    <div class="modal-row">
-      <div class="modal-field"><label>Категория</label><select id="moneyCategory"></select></div>
-      <div class="modal-field"><label>Дата</label><input type="date" id="moneyDate"></div>
-    </div>
-    <div class="modal-field"><label>Комментарий</label><input type="text" id="moneyNote" maxlength="60" placeholder="Необязательно"></div>
-    <div class="modal-actions">
-      <button class="btn-secondary" id="moneyCancelBtn">Отмена</button>
-      <button class="btn-primary" id="moneySaveBtn">Сохранить</button>
-    </div>
-  </div>
-</div>
-
-<div class="toast" id="toast"></div>
 
 <nav>
-  <div class="nav-btn active" data-page="today">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="3"/><path d="M3 10h18M8 2v4M16 2v4"/></svg>
-    Сегодня
-  </div>
-  <div class="nav-btn" data-page="habits">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
-    Привычки
-  </div>
-  <div class="nav-btn" data-page="goals">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="4"/></svg>
-    Цели
-  </div>
-  <div class="nav-btn" data-page="finance">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="14" rx="2"/><path d="M2 10h20M6 15h4"/></svg>
-    Финансы
-  </div>
-  <div class="nav-btn" data-page="stats">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg>
-    Статистика
-  </div>
+
+<button
+class="menu active"
+data-page="dashboard">
+
+<i class="fa-solid fa-house"></i>
+
+Главная
+
+</button>
+
+<button
+class="menu"
+data-page="tasks">
+
+<i class="fa-solid fa-list-check"></i>
+
+Задачи
+
+</button>
+
+<button
+class="menu"
+data-page="calendar">
+
+<i class="fa-solid fa-calendar"></i>
+
+Календарь
+
+</button>
+
+<button
+class="menu"
+data-page="kanban">
+
+<i class="fa-solid fa-table-columns"></i>
+
+Канбан
+
+</button>
+
+<button
+class="menu"
+data-page="habits">
+
+<i class="fa-solid fa-fire"></i>
+
+Привычки
+
+</button>
+
+<button
+class="menu"
+data-page="goals">
+
+<i class="fa-solid fa-bullseye"></i>
+
+Цели
+
+</button>
+
+<button
+class="menu"
+data-page="finance">
+
+<i class="fa-solid fa-wallet"></i>
+
+Финансы
+
+</button>
+
+<button
+class="menu"
+data-page="statistics">
+
+<i class="fa-solid fa-chart-column"></i>
+
+Статистика
+
+</button>
+
+<button
+class="menu"
+data-page="templates">
+
+<i class="fa-solid fa-layer-group"></i>
+
+Шаблоны
+
+</button>
+
+<button
+class="menu"
+data-page="ai">
+
+<i class="fa-solid fa-robot"></i>
+
+AI
+
+</button>
+
+<button
+class="menu"
+data-page="settings">
+
+<i class="fa-solid fa-gear"></i>
+
+Настройки
+
+</button>
+
 </nav>
 
+</aside>
+
+</nav>
+
+<div class="sidebar-bottom">
+
+<button id="exportData">
+
+<i class="fa-solid fa-file-export"></i>
+
+Экспорт данных
+
+</button>
+
+
+<button id="logoutBtn">
+
+<i class="fa-solid fa-right-from-bracket"></i>
+
+Выход
+
+</button>
+
+</div>
+
+</aside>
+
+
+<main id="main">
+
+
+<header class="topbar">
+
+<div class="mobile-menu">
+
+<i class="fa-solid fa-bars"></i>
+
+</div>
+
+
+<div class="search-box">
+
+<i class="fa-solid fa-search"></i>
+
+<input 
+type="text"
+id="globalSearch"
+placeholder="Поиск...">
+
+</div>
+
+
+<div class="user-panel">
+
+<button id="themeToggle">
+
+<i class="fa-solid fa-moon"></i>
+
+</button>
+
+
+<div class="notifications">
+
+<i class="fa-solid fa-bell"></i>
+
+<span id="notificationCount">
+0
+</span>
+
+</div>
+
+
+<div class="profile">
+
+<img 
+id="userAvatar"
+src="icons/avatar.png">
+
+
+<div>
+
+<b id="userName">
+
+Пользователь
+
+</b>
+
+<small id="userEmail">
+
+email@example.com
+
+</small>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+</header>
+
+
+
+<section 
+id="dashboard"
+class="page active">
+
+
+<div class="welcome-card">
+
+
+<div>
+
+<h1>
+
+Добро пожаловать,
+<span id="dashboardUser">
+User
+</span>
+
+</h1>
+
+
+<p>
+
+Сегодня отличный день для новых достижений.
+
+</p>
+
+</div>
+
+
+<div class="date-box">
+
+<i class="fa-solid fa-calendar-day"></i>
+
+<span id="currentDate">
+
+</span>
+
+</div>
+
+
+</div>
+
+
+
+<div class="stats-grid">
+
+
+<div class="stat-card">
+
+<div class="icon">
+
+<i class="fa-solid fa-list-check"></i>
+
+</div>
+
+<div>
+
+<h3 id="totalTasks">
+
+0
+
+</h3>
+
+<p>
+
+Всего задач
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="stat-card">
+
+<div class="icon">
+
+<i class="fa-solid fa-check"></i>
+
+</div>
+
+<div>
+
+<h3 id="completedTasks">
+
+0
+
+</h3>
+
+<p>
+
+Выполнено
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="stat-card">
+
+<div class="icon">
+
+<i class="fa-solid fa-fire"></i>
+
+</div>
+
+<div>
+
+<h3 id="habitProgress">
+
+0%
+
+</h3>
+
+<p>
+
+Привычки
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div class="stat-card">
+
+<div class="icon">
+
+<i class="fa-solid fa-wallet"></i>
+
+</div>
+
+<div>
+
+<h3 id="balance">
+
+0
+
+</h3>
+
+<p>
+
+Баланс
+
+</p>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+<div class="dashboard-grid">
+
+
+<div class="card today-card">
+
+<div class="card-header">
+
+<h2>
+
+Сегодня
+
+</h2>
+
+
+<button 
+id="quickAddTask">
+
++
+
+</button>
+
+</div>
+
+
+<div id="todayTasks">
+
+</div>
+
+
+</div>
+
+
+
+<div class="card progress-card">
+
+<div class="card-header">
+
+<h2>
+
+Прогресс
+
+</h2>
+
+</div>
+
+
+<canvas id="progressChart">
+
+</canvas>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+<section 
+id="tasks"
+class="page">
+
+
+<div class="page-header">
+
+<div>
+
+<h1>
+Задачи
+</h1>
+
+<p>
+Управляй своими делами и планами
+</p>
+
+</div>
+
+
+<button 
+class="primary-btn"
+id="addTaskOpen">
+
+<i class="fa-solid fa-plus"></i>
+
+Новая задача
+
+</button>
+
+</div>
+
+
+
+<div class="task-toolbar">
+
+
+<div class="filters">
+
+<button 
+class="filter active"
+data-filter="all">
+
+Все
+
+</button>
+
+
+<button 
+class="filter"
+data-filter="active">
+
+Активные
+
+</button>
+
+
+<button 
+class="filter"
+data-filter="completed">
+
+Выполненные
+
+</button>
+
+</div>
+
+
+
+<select id="taskSort">
+
+<option value="date">
+
+По дате
+
+</option>
+
+
+<option value="priority">
+
+По приоритету
+
+</option>
+
+
+<option value="name">
+
+По названию
+
+</option>
+
+</select>
+
+
+</div>
+
+
+
+<div id="taskContainer"
+class="task-list">
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section
+id="calendar"
+class="page">
+
+
+<div class="page-header">
+
+<div>
+
+<h1>
+
+Календарь
+
+</h1>
+
+<p>
+
+Планируй события
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div id="calendarContainer">
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section
+id="kanban"
+class="page">
+
+
+<div class="page-header">
+
+<div>
+
+<h1>
+
+Канбан
+
+</h1>
+
+<p>
+
+Управляй процессом работы
+
+</p>
+
+</div>
+
+
+<button 
+class="primary-btn"
+id="addColumn">
+
++
+
+Колонка
+
+</button>
+
+
+</div>
+
+
+
+<div class="kanban-board">
+
+
+<div 
+class="kanban-column"
+data-status="todo">
+
+
+<h3>
+
+Нужно сделать
+
+</h3>
+
+
+<div class="kanban-items">
+
+</div>
+
+
+</div>
+
+
+
+<div 
+class="kanban-column"
+data-status="progress">
+
+
+<h3>
+
+В процессе
+
+</h3>
+
+
+<div class="kanban-items">
+
+</div>
+
+
+</div>
+
+
+
+<div 
+class="kanban-column"
+data-status="done">
+
+
+<h3>
+
+Готово
+
+</h3>
+
+
+<div class="kanban-items">
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section
+id="habits"
+class="page">
+
+
+<div class="page-header">
+
+<div>
+
+<h1>
+
+Привычки
+
+</h1>
+
+<p>
+
+Строй дисциплину каждый день
+
+</p>
+
+</div>
+
+
+<button
+class="primary-btn"
+id="addHabit">
+
+<i class="fa-solid fa-plus"></i>
+
+Добавить
+
+</button>
+
+
+</div>
+
+
+
+<div 
+id="habitsContainer"
+class="habits-grid">
+
+</div>
+
+
+</section>
+
+
+
+
+
+<section
+id="goals"
+class="page">
+
+
+<div class="page-header">
+
+
+<div>
+
+<h1>
+
+Цели
+
+</h1>
+
+<p>
+
+Большие цели из маленьких шагов
+
+</p>
+
+</div>
+
+
+<button
+class="primary-btn"
+id="addGoal">
+
+<i class="fa-solid fa-plus"></i>
+
+Новая цель
+
+</button>
+
+
+</div>
+
+
+
+<div 
+id="goalsContainer"
+class="goals-grid">
+
+
+</div>
+
+
+</section>
+
+<section
+id="finance"
+class="page">
+
+
+<div class="page-header">
+
+<div>
+
+<h1>
+
+Финансы
+
+</h1>
+
+<p>
+
+Контроль доходов и расходов
+
+</p>
+
+</div>
+
+
+<button
+class="primary-btn"
+id="addFinance">
+
+<i class="fa-solid fa-plus"></i>
+
+Добавить
+
+</button>
+
+
+</div>
+
+
+
+<div class="finance-summary">
+
+
+<div class="money-card income">
+
+<i class="fa-solid fa-arrow-up"></i>
+
+
+<div>
+
+<span>
+
+Доходы
+
+</span>
+
+<h2 id="totalIncome">
+
+0
+
+</h2>
+
+</div>
+
+
+</div>
+
+
+
+<div class="money-card expense">
+
+<i class="fa-solid fa-arrow-down"></i>
+
+
+<div>
+
+<span>
+
+Расходы
+
+</span>
+
+<h2 id="totalExpense">
+
+0
+
+</h2>
+
+</div>
+
+
+</div>
+
+
+
+<div class="money-card balance">
+
+<i class="fa-solid fa-wallet"></i>
+
+
+<div>
+
+<span>
+
+Баланс
+
+</span>
+
+<h2 id="financeBalance">
+
+0
+
+</h2>
+
+</div>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="card">
+
+<canvas id="financeChart">
+
+</canvas>
+
+</div>
+
+
+
+<div 
+id="financeContainer"
+class="finance-list">
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+<section
+id="statistics"
+class="page">
+
+
+<div class="page-header">
+
+
+<div>
+
+<h1>
+
+Статистика
+
+</h1>
+
+
+<p>
+
+Анализ продуктивности
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+<div class="charts-grid">
+
+
+<div class="card">
+
+
+<h3>
+
+Задачи
+
+</h3>
+
+
+<canvas id="tasksStatistics">
+
+</canvas>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h3>
+
+Привычки
+
+</h3>
+
+
+<canvas id="habitsStatistics">
+
+</canvas>
+
+
+</div>
+
+
+
+<div class="card">
+
+
+<h3>
+
+Финансы
+
+</h3>
+
+
+<canvas id="moneyStatistics">
+
+</canvas>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section
+id="templates"
+class="page">
+
+
+<div class="page-header">
+
+
+<div>
+
+<h1>
+
+Шаблоны
+
+</h1>
+
+
+<p>
+
+Быстро создавай планы
+
+</p>
+
+
+</div>
+
+
+
+<button
+class="primary-btn"
+id="createTemplate">
+
+<i class="fa-solid fa-plus"></i>
+
+Создать шаблон
+
+</button>
+
+
+</div>
+
+
+
+
+<div
+id="templatesContainer"
+class="templates-grid">
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section
+id="ai"
+class="page">
+
+
+<div class="page-header">
+
+
+<div>
+
+<h1>
+
+AI Помощник
+
+</h1>
+
+
+<p>
+
+Анализ твоей продуктивности
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="ai-container">
+
+
+<div class="ai-avatar">
+
+<i class="fa-solid fa-robot">
+
+</i>
+
+</div>
+
+
+
+<div 
+id="aiMessages"
+class="ai-messages">
+
+
+<div class="ai-message">
+
+Привет! Я помогу тебе планировать день.
+
+</div>
+
+
+</div>
+
+
+
+
+<div class="ai-input">
+
+
+<input
+id="aiInput"
+placeholder="Напиши вопрос...">
+
+
+<button
+id="aiSend">
+
+<i class="fa-solid fa-paper-plane">
+
+</i>
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+</section>
+
+
+
+
+
+
+
+
+<section
+id="settings"
+class="page">
+
+
+<div class="page-header">
+
+
+<div>
+
+<h1>
+
+Настройки
+
+</h1>
+
+
+<p>
+
+Настрой приложение под себя
+
+</p>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="settings-card">
+
+
+<div class="setting-item">
+
+
+<div>
+
+<h3>
+
+Тёмная тема
+
+</h3>
+
+
+<p>
+
+Изменить оформление
+
+</p>
+
+
+</div>
+
+
+
+<label class="switch">
+
+
+<input
+type="checkbox"
+id="darkMode">
+
+
+<span>
+
+</span>
+
+
+</label>
+
+
+</div>
+
+
+
+
+
+<div class="setting-item">
+
+
+<div>
+
+
+<h3>
+
+Уведомления
+
+</h3>
+
+
+<p>
+
+Напоминания о задачах
+
+</p>
+
+
+</div>
+
+
+
+<label class="switch">
+
+
+<input
+type="checkbox"
+id="notificationsToggle">
+
+
+<span>
+
+</span>
+
+
+</label>
+
+
+</div>
+
+
+
+</div>
+
+
+</section>
+
+</main>
+
+
+</div>
+
+
+
+
+
+<!-- =========================
+ MODALS
+========================= -->
+
+
+<div 
+id="taskModal"
+class="modal">
+
+
+<div class="modal-content">
+
+
+<div class="modal-header">
+
+
+<h2>
+
+Новая задача
+
+</h2>
+
+
+<button
+class="close-modal">
+
+×
+
+
+</button>
+
+
+</div>
+
+
+
+
+<input
+id="taskTitle"
+placeholder="Название задачи">
+
+
+
+<textarea
+id="taskDescription"
+placeholder="Описание">
+
+</textarea>
+
+
+
+<div class="modal-row">
+
+
+<select id="taskPriority">
+
+
+<option value="low">
+
+Низкий приоритет
+
+</option>
+
+
+<option value="medium">
+
+Средний приоритет
+
+</option>
+
+
+<option value="high">
+
+Высокий приоритет
+
+</option>
+
+
+</select>
+
+
+
+<input
+type="datetime-local"
+id="taskDate">
+
+
+</div>
+
+
+
+<button
+id="saveTask"
+class="primary-btn">
+
+
+Создать
+
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<div 
+id="habitModal"
+class="modal">
+
+
+<div class="modal-content">
+
+
+<div class="modal-header">
+
+
+<h2>
+
+Новая привычка
+
+</h2>
+
+
+<button
+class="close-modal">
+
+×
+
+
+</button>
+
+
+</div>
+
+
+
+<input
+id="habitName"
+placeholder="Название привычки">
+
+
+
+<input
+type="number"
+id="habitDays"
+placeholder="Количество дней">
+
+
+<button
+id="saveHabit"
+class="primary-btn">
+
+Создать
+
+</button>
+
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div 
+id="goalModal"
+class="modal">
+
+
+<div class="modal-content">
+
+
+<div class="modal-header">
+
+
+<h2>
+
+Новая цель
+
+</h2>
+
+
+<button
+class="close-modal">
+
+×
+
+
+</button>
+
+
+</div>
+
+
+
+<input
+id="goalTitle"
+placeholder="Название цели">
+
+
+
+<textarea
+id="goalDescription"
+placeholder="Описание">
+
+</textarea>
+
+
+<input
+type="date"
+id="goalDeadline">
+
+
+
+<button
+id="saveGoal"
+class="primary-btn">
+
+Создать
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<div 
+id="financeModal"
+class="modal">
+
+
+<div class="modal-content">
+
+
+<div class="modal-header">
+
+
+<h2>
+
+Финансовая операция
+
+</h2>
+
+
+<button
+class="close-modal">
+
+×
+
+
+</button>
+
+
+</div>
+
+
+
+<input
+id="financeTitle"
+placeholder="Название">
+
+
+
+<input
+type="number"
+id="financeAmount"
+placeholder="Сумма">
+
+
+
+<select
+id="financeType">
+
+
+<option value="income">
+
+Доход
+
+</option>
+
+
+<option value="expense">
+
+Расход
+
+</option>
+
+
+</select>
+
+
+
+<button
+id="saveFinance"
+class="primary-btn">
+
+Сохранить
+
+</button>
+
+
+</div>
+
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- Notification popup -->
+
+<div
+id="toast">
+
+</div>
+
+
+
+
+
+
+
+<!-- Firebase -->
+
+<script type="module" src="firebase.js"></script>
+
+
+<!-- Core -->
+
 <script src="storage.js"></script>
+
+<script src="auth.js"></script>
+
+
 <script src="tasks.js"></script>
+
 <script src="habits.js"></script>
+
 <script src="goals.js"></script>
+
 <script src="finance.js"></script>
+
+
+<script src="calendar.js"></script>
+
+<script src="kanban.js"></script>
+
+
 <script src="templates.js"></script>
+
+
 <script src="charts.js"></script>
+
+
+<script src="notifications.js"></script>
+
+
+<script src="search.js"></script>
+
+
+<script src="settings.js"></script>
+
+
+<script src="ai.js"></script>
+
+
 <script src="app.js"></script>
+
+
+
 </body>
+
 </html>
