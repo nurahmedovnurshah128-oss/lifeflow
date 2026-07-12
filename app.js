@@ -597,3 +597,15 @@ closeModal;
 
 window.showToast =
 showToast;
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    const loader = document.getElementById("loader");
+
+    if(loader){
+        setTimeout(() => {
+            loader.style.display = "none";
+        }, 1000);
+    }
+
+});
