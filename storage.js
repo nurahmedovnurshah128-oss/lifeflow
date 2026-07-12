@@ -1,116 +1,500 @@
-// ==========================================================
-// STORAGE.JS — облачное сохранение (Firestore) + офлайн-кэш
-// ==========================================================
-const LOCAL_KEY = 'lifeflow_cache_v1';
- 
-function defaultData(){
-  return {
-    days: {},
+/*
+==================================
+ LifeFlow Ultimate
+ Storage Engine v3
+ Firebase + Local Cache
+==================================
+*/
+
+
+import { db, auth } 
+from "./firebase.js";
+
+
+import {
+
+doc,
+setDoc,
+getDoc
+
+}
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js";
+
+
+
+
+
+const CACHE_KEY = "lifeflow_cache";
+
+
+
+
+
+const defaultData = {
+
+
+    tasks: [],
+
+
     habits: [],
-    habitLog: {},
-    weekGoals: {},
+
+
     goals: [],
-    categories: ['Работа','Дом','Здоровье','Учёба','Личное'],
-    finance: { budgetByMonth: {}, transactions: [] },
+
+
+    finance: [],
+
+
     templates: [],
-    theme: 'light'
-  };
-}
- 
-let data = defaultData();
-let saveDebounceTimer = null;
-let firestoreUnsub = null;
- 
-function loadLocalCache(){
-  try{
-    const raw = localStorage.getItem(LOCAL_KEY);
-    if(raw) return JSON.parse(raw);
-  }catch(e){}
-  return null;
-}
-function saveLocalCache(){
-  try{ localStorage.setItem(LOCAL_KEY, JSON.stringify(data)); }catch(e){}
-}
- 
-function mergeIntoDefault(loaded){
-  const def = defaultData();
-  const merged = Object.assign(def, loaded || {});
-  merged.finance = Object.assign(def.finance, (loaded && loaded.finance) || {});
-  return merged;
-}
- 
-// Called once user is authenticated
-function initStorageForUser(user){
-  const cached = loadLocalCache();
-  if(cached) data = mergeIntoDefault(cached);
- 
-  const docRef = db.collection('users').doc(user.uid).collection('data').doc('main');
- 
-  docRef.get().then(snap=>{
-    if(snap.exists){
-      data = mergeIntoDefault(snap.data());
-      saveLocalCache();
-    } else {
-      docRef.set(data);
+
+
+    settings: {
+
+
+        theme:"dark",
+
+        username:"Пользователь"
+
     }
-    if(typeof renderAll === 'function') renderAll();
-  }).catch(err=>{
-    console.warn('Firestore недоступен, работаем офлайн', err);
-    if(typeof renderAll === 'function') renderAll();
-  });
- 
-  if(firestoreUnsub) firestoreUnsub();
-  firestoreUnsub = docRef.onSnapshot(snap=>{
-    if(!snap.exists) return;
-    const remote = snap.data();
-    if(JSON.stringify(remote) !== JSON.stringify(data)){
-      data = mergeIntoDefault(remote);
-      saveLocalCache();
-      if(typeof renderAll === 'function') renderAll();
+
+
+};
+
+
+
+
+
+
+
+// =================================
+// Получить локальные данные
+// =================================
+
+
+function getLocal(){
+
+
+    const data =
+    localStorage.getItem(
+        CACHE_KEY
+    );
+
+
+
+    if(data){
+
+
+        return JSON.parse(data);
+
+
     }
-  }, err=> console.warn('Sync error', err));
+
+
+
+    localStorage.setItem(
+
+        CACHE_KEY,
+
+        JSON.stringify(defaultData)
+
+    );
+
+
+
+    return defaultData;
+
+
 }
- 
-// Call this after ANY data mutation
-function saveData(){
-  saveLocalCache();
-  clearTimeout(saveDebounceTimer);
-  saveDebounceTimer = setTimeout(()=>{
-    if(!currentUser) return;
-    const docRef = db.collection('users').doc(currentUser.uid).collection('data').doc('main');
-    docRef.set(data).catch(err=> console.warn('Cloud save failed, saved locally', err));
-  }, 600);
+
+
+
+
+
+
+
+
+// =================================
+// Сохранить локально
+// =================================
+
+
+function saveLocal(data){
+
+
+    localStorage.setItem(
+
+        CACHE_KEY,
+
+        JSON.stringify(data)
+
+    );
+
+
 }
- 
-function exportData(){
-  const blob = new Blob([JSON.stringify(data, null, 2)], {type:'application/json'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'lifeflow-backup-' + new Date().toISOString().slice(0,10) + '.json';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-}
- 
-function importDataFromFile(file, onDone){
-  const reader = new FileReader();
-  reader.onload = evt=>{
+
+
+
+
+
+
+
+
+
+// =================================
+// Получить данные пользователя
+// =================================
+
+
+async function getData(){
+
+
+
+    const user =
+    auth.currentUser;
+
+
+
+    if(!user){
+
+
+        return getLocal();
+
+
+    }
+
+
+
+
     try{
-      const imported = JSON.parse(evt.target.result);
-      data = mergeIntoDefault(imported);
-      saveData();
-      onDone(true);
-    }catch(e){
-      onDone(false);
+
+
+        const ref =
+        doc(
+
+            db,
+
+            "users",
+
+            user.uid
+
+        );
+
+
+
+        const snap =
+        await getDoc(ref);
+
+
+
+        if(snap.exists()){
+
+
+            const data =
+            snap.data();
+
+
+
+            saveLocal(data);
+
+
+
+            return data;
+
+
+        }
+
+
+
+        else{
+
+
+            await saveData(defaultData);
+
+
+            return defaultData;
+
+
+        }
+
+
     }
-  };
-  reader.readAsText(file);
+
+
+
+    catch(error){
+
+
+
+        console.log(
+            "Cloud error:",
+            error
+        );
+
+
+
+        return getLocal();
+
+
+    }
+
+
 }
- 
-function resetAllData(){
-  data = defaultData();
-  saveData();
+
+
+
+
+
+
+
+
+// =================================
+// Сохранить данные
+// =================================
+
+
+async function saveData(data){
+
+
+
+    saveLocal(data);
+
+
+
+    const user =
+    auth.currentUser;
+
+
+
+    if(!user){
+
+
+        return;
+
+
+    }
+
+
+
+    try{
+
+
+        await setDoc(
+
+            doc(
+
+                db,
+
+                "users",
+
+                user.uid
+
+            ),
+
+            data
+
+        );
+
+
+    }
+
+
+    catch(error){
+
+
+        console.log(
+            error
+        );
+
+
+    }
+
+
+
 }
- 
+
+
+
+
+
+
+
+
+// =================================
+// Обновить раздел
+// =================================
+
+
+async function updateSection(
+
+section,
+
+value
+
+){
+
+
+
+    const data =
+    await getData();
+
+
+
+    data[section] =
+    value;
+
+
+
+    await saveData(data);
+
+
+
+}
+
+
+
+
+
+
+
+
+// =================================
+// Добавить элемент
+// =================================
+
+
+async function addItem(
+
+section,
+
+item
+
+){
+
+
+
+    const data =
+    await getData();
+
+
+
+    if(!data[section]){
+
+
+        data[section] = [];
+
+
+    }
+
+
+
+    data[section].push(item);
+
+
+
+    await saveData(data);
+
+
+}
+
+
+
+
+
+
+
+
+// =================================
+// Удалить элемент
+// =================================
+
+
+async function removeItem(
+
+section,
+
+id
+
+){
+
+
+
+    const data =
+    await getData();
+
+
+
+    data[section] =
+
+    data[section].filter(
+
+        item =>
+        item.id !== id
+
+    );
+
+
+
+    await saveData(data);
+
+
+
+}
+
+
+
+
+
+
+
+
+// =================================
+// Очистить всё
+// =================================
+
+
+async function clearStorage(){
+
+
+    localStorage.removeItem(
+
+        CACHE_KEY
+
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// =================================
+// Экспорт
+// =================================
+
+
+window.LifeStorage = {
+
+
+    get:getData,
+
+
+    save:saveData,
+
+
+    update:updateSection,
+
+
+    add:addItem,
+
+
+    remove:removeItem,
+
+
+    clear:clearStorage
+
+
+};
