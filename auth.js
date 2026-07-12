@@ -1,149 +1,154 @@
-/*
-==================================
- LifeFlow Ultimate
- Firebase Authentication
-==================================
-*/
-
-
-import {
-    auth
-}
-from "./firebase.js";
-
+import { 
+    auth 
+} from "./firebase.js";
 
 import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
+    signOut,
     GoogleAuthProvider,
     signInWithPopup,
-    signOut,
     onAuthStateChanged
-}
-from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
 
 
-
-
-
-// ================================
 // Регистрация
-// ================================
+
+const registerForm = document.getElementById("registerForm");
+
+if(registerForm){
+
+registerForm.addEventListener("submit", async (e)=>{
+
+e.preventDefault();
 
 
-async function registerUser(){
+const name = document.getElementById("registerName").value;
+
+const email = document.getElementById("registerEmail").value;
+
+const password = document.getElementById("registerPassword").value;
 
 
-    const email =
-    document.getElementById("registerEmail").value;
+try{
+
+const user = await createUserWithEmailAndPassword(
+auth,
+email,
+password
+);
 
 
-    const password =
-    document.getElementById("registerPassword").value;
+localStorage.setItem(
+"userName",
+name
+);
 
 
-
-    try {
-
-
-        const userCredential =
-        await createUserWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+alert("Аккаунт создан");
 
 
-        showToast(
-            "Аккаунт создан"
-        );
+location.reload();
 
 
-        console.log(
-            userCredential.user
-        );
+}catch(error){
+
+alert(error.message);
+
+}
 
 
-    }
-
-
-    catch(error){
-
-
-        console.log(error);
-
-
-        showToast(
-            error.message
-        );
-
-
-    }
-
+});
 
 }
 
 
 
-
-
-
-
-// ================================
 // Вход
-// ================================
+
+const loginForm = document.getElementById("loginForm");
 
 
-async function loginUser(){
+if(loginForm){
+
+loginForm.addEventListener("submit", async(e)=>{
+
+e.preventDefault();
 
 
-    const email =
-    document.getElementById("loginEmail").value;
+const email =
+document.getElementById("loginEmail").value;
+
+
+const password =
+document.getElementById("loginPassword").value;
 
 
 
-    const password =
-    document.getElementById("loginPassword").value;
+try{
+
+
+await signInWithEmailAndPassword(
+auth,
+email,
+password
+);
+
+
+location.reload();
+
+
+}catch(error){
+
+alert(error.message);
+
+}
+
+
+
+});
+
+
+}
 
 
 
 
-    try{
+// Google вход
+
+const googleBtn =
+document.getElementById("googleLogin");
 
 
-        const result =
-        await signInWithEmailAndPassword(
-            auth,
-            email,
-            password
-        );
+if(googleBtn){
+
+googleBtn.onclick = async()=>{
 
 
-        showToast(
-            "Вход выполнен"
-        );
+try{
 
 
-        console.log(
-            result.user
-        );
+const provider =
+new GoogleAuthProvider();
 
 
-    }
+await signInWithPopup(
+auth,
+provider
+);
 
 
-    catch(error){
+location.reload();
 
 
-        console.log(error);
+}catch(error){
+
+alert(error.message);
+
+}
 
 
-        showToast(
-            "Ошибка входа"
-        );
-
-
-    }
+};
 
 
 }
@@ -152,188 +157,79 @@ async function loginUser(){
 
 
 
-
-
-
-// ================================
-// Google Login
-// ================================
-
-
-async function googleLogin(){
-
-
-    const provider =
-    new GoogleAuthProvider();
-
-
-
-    try{
-
-
-        const result =
-        await signInWithPopup(
-            auth,
-            provider
-        );
-
-
-
-        showToast(
-            "Google вход успешен"
-        );
-
-
-
-        console.log(
-            result.user
-        );
-
-
-    }
-
-
-    catch(error){
-
-
-        console.log(error);
-
-
-        showToast(
-            error.message
-        );
-
-
-    }
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
-// Выход
-// ================================
-
-
-async function logoutUser(){
-
-
-    await signOut(auth);
-
-
-    showToast(
-        "Вы вышли из аккаунта"
-    );
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
 // Проверка пользователя
-// ================================
+
+onAuthStateChanged(auth,(user)=>{
 
 
-onAuthStateChanged(
-    
-    auth,
-
-    (user)=>{
+const screen =
+document.getElementById("authScreen");
 
 
-        if(user){
-
-
-            console.log(
-                "Пользователь:",
-                user.email
-            );
+const app =
+document.getElementById("app");
 
 
 
-            const name =
-            document.getElementById(
-                "userName"
-            );
+if(user){
 
 
-            const email =
-            document.getElementById(
-                "userEmail"
-            );
+if(screen)
+screen.style.display="none";
 
 
-
-            if(name){
-
-                name.innerText =
-                user.displayName ||
-                "Пользователь";
-
-            }
+if(app)
+app.style.display="block";
 
 
 
-            if(email){
-
-                email.innerText =
-                user.email;
-
-            }
-
-
-        }
-
-
-        else{
-
-
-            console.log(
-                "Нет пользователя"
-            );
-
-
-        }
-
-
-    }
-
+console.log(
+"Пользователь:",
+user.email
 );
 
 
 
+}else{
+
+
+if(screen)
+screen.style.display="flex";
+
+
+if(app)
+app.style.display="none";
+
+
+console.log(
+"Нет пользователя"
+);
+
+
+}
+
+
+
+});
 
 
 
 
-// ================================
-// Глобальные функции
-// ================================
+// Выход
+
+const logout =
+document.getElementById("logoutBtn");
 
 
-window.registerUser =
-registerUser;
+if(logout){
+
+logout.onclick=async()=>{
+
+await signOut(auth);
+
+location.reload();
+
+};
 
 
-window.loginUser =
-loginUser;
-
-
-window.googleLogin =
-googleLogin;
-
-
-window.logoutUser =
-logoutUser;
+}
