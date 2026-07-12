@@ -1,89 +1,339 @@
-// ==========================================================
-// AUTH.JS — вход, регистрация, Google-логин, выход
-// ==========================================================
-let firebaseApp, auth, db;
-let currentUser = null;
- 
-function initFirebase(){
-  try{
-    firebaseApp = firebase.initializeApp(window.firebaseConfig);
-    auth = firebase.auth();
-    db = firebase.firestore();
-    return true;
-  }catch(e){
-    console.error('Firebase init error', e);
-    showLoginError('Ошибка настройки Firebase. Проверь firebase-config.js');
-    return false;
-  }
+/*
+==================================
+ LifeFlow Ultimate
+ Firebase Authentication
+==================================
+*/
+
+
+import {
+    auth
 }
- 
-function showLoginError(msg){
-  const el = document.getElementById('loginError');
-  el.textContent = msg;
-  el.classList.add('show');
+from "./firebase.js";
+
+
+import {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signOut,
+    onAuthStateChanged
 }
-function clearLoginError(){
-  document.getElementById('loginError').classList.remove('show');
-}
- 
-function translateAuthError(code){
-  const map = {
-    'auth/invalid-email': 'Некорректный email',
-    'auth/user-not-found': 'Пользователь не найден',
-    'auth/wrong-password': 'Неверный пароль',
-    'auth/email-already-in-use': 'Этот email уже зарегистрирован',
-    'auth/weak-password': 'Пароль слишком простой (минимум 6 символов)',
-    'auth/invalid-credential': 'Неверный email или пароль',
-    'auth/popup-closed-by-user': 'Окно входа закрыто',
-    'auth/network-request-failed': 'Проблема с сетью'
-  };
-  return map[code] || 'Ошибка входа. Попробуй снова.';
-}
- 
-document.getElementById('loginSubmitBtn').addEventListener('click', ()=>{
-  clearLoginError();
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPassword').value;
-  if(!email || !pass){ showLoginError('Заполни email и пароль'); return; }
-  auth.signInWithEmailAndPassword(email, pass).catch(err=>{
-    showLoginError(translateAuthError(err.code));
-  });
-});
- 
-document.getElementById('registerSubmitBtn').addEventListener('click', ()=>{
-  clearLoginError();
-  const email = document.getElementById('loginEmail').value.trim();
-  const pass = document.getElementById('loginPassword').value;
-  if(!email || !pass){ showLoginError('Заполни email и пароль'); return; }
-  if(pass.length < 6){ showLoginError('Пароль должен быть от 6 символов'); return; }
-  auth.createUserWithEmailAndPassword(email, pass).catch(err=>{
-    showLoginError(translateAuthError(err.code));
-  });
-});
- 
-document.getElementById('googleLoginBtn').addEventListener('click', ()=>{
-  clearLoginError();
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).catch(err=>{
-    showLoginError(translateAuthError(err.code));
-  });
-});
- 
-document.getElementById('logoutBtn').addEventListener('click', ()=>{
-  if(confirm('Выйти из аккаунта?')) auth.signOut();
-});
- 
-function onAuthReady(callback){
-  auth.onAuthStateChanged(user=>{
-    currentUser = user;
-    if(user){
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('app').style.display = 'block';
-      callback(user);
-    } else {
-      document.getElementById('app').style.display = 'none';
-      document.getElementById('loginScreen').style.display = 'flex';
+from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+
+
+
+
+// ================================
+// Регистрация
+// ================================
+
+
+async function registerUser(){
+
+
+    const email =
+    document.getElementById("registerEmail").value;
+
+
+    const password =
+    document.getElementById("registerPassword").value;
+
+
+
+    try {
+
+
+        const userCredential =
+        await createUserWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        showToast(
+            "Аккаунт создан"
+        );
+
+
+        console.log(
+            userCredential.user
+        );
+
+
     }
-  });
+
+
+    catch(error){
+
+
+        console.log(error);
+
+
+        showToast(
+            error.message
+        );
+
+
+    }
+
+
 }
- 
+
+
+
+
+
+
+
+// ================================
+// Вход
+// ================================
+
+
+async function loginUser(){
+
+
+    const email =
+    document.getElementById("loginEmail").value;
+
+
+
+    const password =
+    document.getElementById("loginPassword").value;
+
+
+
+
+    try{
+
+
+        const result =
+        await signInWithEmailAndPassword(
+            auth,
+            email,
+            password
+        );
+
+
+        showToast(
+            "Вход выполнен"
+        );
+
+
+        console.log(
+            result.user
+        );
+
+
+    }
+
+
+    catch(error){
+
+
+        console.log(error);
+
+
+        showToast(
+            "Ошибка входа"
+        );
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Google Login
+// ================================
+
+
+async function googleLogin(){
+
+
+    const provider =
+    new GoogleAuthProvider();
+
+
+
+    try{
+
+
+        const result =
+        await signInWithPopup(
+            auth,
+            provider
+        );
+
+
+
+        showToast(
+            "Google вход успешен"
+        );
+
+
+
+        console.log(
+            result.user
+        );
+
+
+    }
+
+
+    catch(error){
+
+
+        console.log(error);
+
+
+        showToast(
+            error.message
+        );
+
+
+    }
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Выход
+// ================================
+
+
+async function logoutUser(){
+
+
+    await signOut(auth);
+
+
+    showToast(
+        "Вы вышли из аккаунта"
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Проверка пользователя
+// ================================
+
+
+onAuthStateChanged(
+    
+    auth,
+
+    (user)=>{
+
+
+        if(user){
+
+
+            console.log(
+                "Пользователь:",
+                user.email
+            );
+
+
+
+            const name =
+            document.getElementById(
+                "userName"
+            );
+
+
+            const email =
+            document.getElementById(
+                "userEmail"
+            );
+
+
+
+            if(name){
+
+                name.innerText =
+                user.displayName ||
+                "Пользователь";
+
+            }
+
+
+
+            if(email){
+
+                email.innerText =
+                user.email;
+
+            }
+
+
+        }
+
+
+        else{
+
+
+            console.log(
+                "Нет пользователя"
+            );
+
+
+        }
+
+
+    }
+
+);
+
+
+
+
+
+
+
+// ================================
+// Глобальные функции
+// ================================
+
+
+window.registerUser =
+registerUser;
+
+
+window.loginUser =
+loginUser;
+
+
+window.googleLogin =
+googleLogin;
+
+
+window.logoutUser =
+logoutUser;
