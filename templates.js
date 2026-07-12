@@ -1,54 +1,500 @@
-// ==========================================================
-// TEMPLATES.JS — сохранение и применение шаблонов дня
-// ==========================================================
-function renderTemplates(){
-  const list = document.getElementById('templateList');
-  list.innerHTML = '';
-  if(data.templates.length === 0){
-    list.innerHTML = '<div class="empty-hint" style="display:block;">Пока нет шаблонов</div>';
-  }
-  data.templates.forEach((tpl, idx)=>{
-    const row = document.createElement('div');
-    row.className = 'template-row';
-    row.innerHTML = `
-      <div class="template-name">${escapeHtml(tpl.name)} <span style="color:var(--ink-soft);font-weight:400;">(${tpl.tasks.length} задач)</span></div>
-      <div class="template-apply" data-idx="${idx}">Применить</div>
-      <div class="template-del" data-idx="${idx}">✕</div>
-    `;
-    list.appendChild(row);
-  });
- 
-  list.querySelectorAll('.template-apply').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      const tpl = data.templates[+btn.dataset.idx];
-      const key = fmtKey(selectedDate);
-      const day = getDay(key);
-      tpl.tasks.forEach(t=> day.tasks.push({...t, done:false}));
-      saveData(); renderAll();
-      showToast('Шаблон применён');
-    });
-  });
-  list.querySelectorAll('.template-del').forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      data.templates.splice(+btn.dataset.idx,1);
-      saveData(); renderTemplates();
-    });
-  });
+/*
+==================================
+ LifeFlow Ultimate
+ Templates Manager v3
+==================================
+*/
+
+
+let templates = [];
+
+
+
+
+// ================================
+// Загрузка шаблонов
+// ================================
+
+
+async function loadTemplates(){
+
+
+    const data =
+    await LifeStorage.get();
+
+
+
+    templates =
+    data.templates || [];
+
+
+
+    createDefaultTemplates();
+
+
+
+    renderTemplates();
+
+
 }
- 
-document.getElementById('saveTemplateBtn').addEventListener('click', ()=>{
-  const nameInp = document.getElementById('templateNameInput');
-  const name = nameInp.value.trim();
-  if(!name) { showToast('Введи название шаблона'); return; }
-  const key = fmtKey(selectedDate);
-  const day = getDay(key);
-  if(day.tasks.length === 0){ showToast('На сегодня нет задач'); return; }
-  data.templates.push({
-    id:'tpl'+Date.now(), name,
-    tasks: day.tasks.map(t=>({ text:t.text, prio:t.prio, cat:t.cat, time:t.time }))
-  });
-  nameInp.value = '';
-  saveData(); renderTemplates();
-  showToast('Шаблон сохранён');
+
+
+
+
+
+
+
+
+// ================================
+// Стандартные шаблоны
+// ================================
+
+
+async function createDefaultTemplates(){
+
+
+
+    if(templates.length>0)
+    return;
+
+
+
+
+    templates = [
+
+
+        {
+
+
+        id:"morning",
+
+
+        name:"Утро продуктивности",
+
+
+        tasks:[
+
+            "Зарядка",
+
+            "Душ",
+
+            "Планирование дня"
+
+        ]
+
+
+        },
+
+
+
+        {
+
+
+        id:"study",
+
+
+        name:"Учёба",
+
+
+        tasks:[
+
+            "Повторить тему",
+
+            "Сделать домашнее задание",
+
+            "Подготовиться к уроку"
+
+        ]
+
+
+        },
+
+
+
+        {
+
+
+        id:"workout",
+
+
+        name:"Тренировка",
+
+
+        tasks:[
+
+            "Разминка",
+
+            "Основная тренировка",
+
+            "Растяжка"
+
+        ]
+
+
+        }
+
+
+
+    ];
+
+
+
+    await LifeStorage.update(
+
+        "templates",
+
+        templates
+
+    );
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Отображение
+// ================================
+
+
+function renderTemplates(){
+
+
+
+    const container =
+    document.getElementById(
+        "templatesContainer"
+    );
+
+
+
+    if(!container)
+    return;
+
+
+
+
+    container.innerHTML="";
+
+
+
+
+
+
+    templates.forEach(template=>{
+
+
+
+        const card =
+        document.createElement(
+            "div"
+        );
+
+
+
+        card.className =
+        "template-card";
+
+
+
+        card.innerHTML = `
+
+
+        <h3>
+
+        ${template.name}
+
+        </h3>
+
+
+
+        <p>
+
+        ${template.tasks.length}
+        задач
+
+        </p>
+
+
+
+        <button
+        onclick="useTemplate('${template.id}')">
+
+        Использовать
+
+        </button>
+
+
+
+        `;
+
+
+
+
+        container.appendChild(card);
+
+
+
+    });
+
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Использовать шаблон
+// ================================
+
+
+async function useTemplate(id){
+
+
+
+    const template =
+    templates.find(
+
+        t=>
+        t.id===id
+
+    );
+
+
+
+
+
+    if(!template)
+    return;
+
+
+
+
+
+
+    const data =
+    await LifeStorage.get();
+
+
+
+
+    template.tasks.forEach(task=>{
+
+
+
+        data.tasks.push({
+
+
+            id:
+            Date.now()
+            +
+            Math.random()
+            .toString(),
+
+
+            title:task,
+
+
+            description:
+            "Создано из шаблона",
+
+
+            priority:
+            "medium",
+
+
+            completed:false,
+
+
+            created:
+            new Date()
+            .toISOString()
+
+
+
+        });
+
+
+
+    });
+
+
+
+
+
+    await LifeStorage.save(
+        data
+    );
+
+
+
+
+
+    if(
+    typeof loadTasks==="function"
+    ){
+
+
+        loadTasks();
+
+
+    }
+
+
+
+
+
+
+    showToast(
+
+    "Шаблон добавлен"
+
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Создать свой шаблон
+// ================================
+
+
+async function createTemplate(){
+
+
+
+    const name =
+    document.getElementById(
+        "templateName"
+    ).value;
+
+
+
+
+    const tasksText =
+    document.getElementById(
+        "templateTasks"
+    ).value;
+
+
+
+
+
+    if(!name || !tasksText)
+    return;
+
+
+
+
+
+
+    const item = {
+
+
+        id:
+        Date.now()
+        .toString(),
+
+
+        name,
+
+
+        tasks:
+        tasksText
+        .split("\n")
+        .filter(Boolean)
+
+
+    };
+
+
+
+
+
+
+    templates.push(
+        item
+    );
+
+
+
+
+
+    await LifeStorage.update(
+
+        "templates",
+
+        templates
+
+    );
+
+
+
+
+
+    renderTemplates();
+
+
+
+    showToast(
+        "Шаблон создан"
+    );
+
+
+
+}
+
+
+
+
+
+
+
+
+// ================================
+// Запуск
+// ================================
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+    loadTemplates();
+
+
+
 });
- 
+
+
+
+
+
+
+window.useTemplate =
+useTemplate;
+
+
+window.createTemplate =
+createTemplate;
