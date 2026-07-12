@@ -109,10 +109,9 @@ button {
 
     inset:0;
 
-    background:
-    var(--bg);
+    background:var(--bg);
 
-    display:flex;
+    display:none;
 
     justify-content:center;
 
@@ -123,8 +122,6 @@ button {
     z-index:9999;
 
 }
-
-
 
 .loader-logo {
 
