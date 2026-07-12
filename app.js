@@ -1,146 +1,45 @@
 /*
 ==================================
  LifeFlow Ultimate
- Main Application
+ Application Core v3
 ==================================
 */
 
 
-// ===============================
+// ================================
 // Переключение страниц
-// ===============================
+// ================================
 
 
-function openPage(page){
+function openPage(pageId){
 
 
-    let pages = document.querySelectorAll(".page");
+    document
+    .querySelectorAll(".page")
+    .forEach(page=>{
 
 
-    pages.forEach(p=>{
+        page.classList.remove(
+            "active"
+        );
 
-        p.classList.add("hidden");
 
     });
 
 
 
-    let current = document.getElementById(page);
-
-
-    if(current){
-
-        current.classList.remove("hidden");
-
-    }
-
-
-
-    let buttons = document.querySelectorAll(".menuButton");
-
-
-    buttons.forEach(btn=>{
-
-        btn.classList.remove("active");
-
-    });
-
-
-
-    let activeButton = document.querySelector(
-        `[onclick="openPage('${page}')"]`
-    );
-
-
-    if(activeButton){
-
-        activeButton.classList.add("active");
-
-    }
-
-
-
-    if(page==="dashboard"){
-
-        updateDashboard();
-
-    }
-
-
-}
-
-
-
-
-
-
-// ===============================
-// Тема
-// ===============================
-
-
-function toggleTheme(){
-
-
-
-    document.body.classList.toggle(
-
-        "dark"
-
+    const page =
+    document.getElementById(
+        pageId
     );
 
 
 
-    let data=Storage.get();
+    if(page){
 
 
-
-    data.settings.theme =
-
-    document.body.classList.contains("dark")
-
-    ? "dark"
-
-    : "light";
-
-
-
-    Storage.save(data);
-
-
-
-}
-
-
-
-
-
-
-
-// ===============================
-// Загрузка темы
-// ===============================
-
-
-function loadTheme(){
-
-
-
-    let data=Storage.get();
-
-
-
-    if(
-
-        data.settings.theme==="dark"
-
-    ){
-
-
-        document.body.classList.add(
-
-            "dark"
-
+        page.classList.add(
+            "active"
         );
 
 
@@ -148,166 +47,37 @@ function loadTheme(){
 
 
 
-}
+
+    document
+    .querySelectorAll(".menu")
+    .forEach(btn=>{
 
 
-
-
-
-
-
-// ===============================
-// Поиск
-// ===============================
-
-
-function searchContent(){
-
-
-
-    let value=document
-
-    .getElementById("search")
-
-    .value
-
-    .toLowerCase();
-
-
-
-    let tasks=document.querySelectorAll(
-
-        ".taskCard"
-
-    );
-
-
-
-    tasks.forEach(task=>{
-
-
-        task.style.display =
-
-        task.innerText
-
-        .toLowerCase()
-
-        .includes(value)
-
-        ? "flex"
-
-        : "none";
+        btn.classList.remove(
+            "active"
+        );
 
 
     });
 
 
 
-}
-
-
-
-
-
-
-
-// ===============================
-// Dashboard
-// ===============================
-
-
-function updateDashboard(){
-
-
-
-    if(typeof updateDashboardTasks==="function")
-
-        updateDashboardTasks();
-
-
-
-    if(typeof updateHabitProgress==="function")
-
-        updateHabitProgress();
-
-
-
-    if(typeof updateFinanceStats==="function")
-
-        updateFinanceStats();
-
-
-
-    if(typeof updateGoalProgress==="function")
-
-        updateGoalProgress();
-
-
-
-    if(typeof renderRecentTasks==="function")
-
-        renderRecentTasks();
-
-
-
-    if(typeof updateChart==="function")
-
-        updateChart();
-
-
-
-}
-
-
-
-
-
-
-
-// ===============================
-// Приветствие
-// ===============================
-
-
-function setGreeting(){
-
-
-
-    let hour=new Date().getHours();
-
-
-
-    let text="Добро пожаловать 👋";
-
-
-
-    if(hour<12)
-
-        text="Доброе утро ☀️";
-
-    else if(hour<18)
-
-        text="Добрый день 🌤";
-
-    else
-
-        text="Добрый вечер 🌙";
-
-
-
-
-    let box=document.getElementById(
-
-        "helloText"
-
+    const activeButton =
+    document.querySelector(
+        `[data-page="${pageId}"]`
     );
 
 
 
-    if(box)
+    if(activeButton){
 
-        box.innerText=text;
 
+        activeButton.classList.add(
+            "active"
+        );
+
+
+    }
 
 
 }
@@ -318,9 +88,10 @@ function setGreeting(){
 
 
 
-// ===============================
-// Запуск приложения
-// ===============================
+
+// ================================
+// Меню
+// ================================
 
 
 document.addEventListener(
@@ -330,40 +101,499 @@ document.addEventListener(
 ()=>{
 
 
-    loadTheme();
+
+    document
+    .querySelectorAll(".menu")
+    .forEach(button=>{
+
+
+        button.addEventListener(
+
+        "click",
+
+        ()=>{
+
+
+            const page =
+            button.dataset.page;
+
+
+            openPage(page);
+
+
+        }
+
+
+        );
+
+
+    });
+
+
+});
 
 
 
-    setGreeting();
 
 
 
-    updateDashboard();
 
 
+// ================================
+// Модальные окна
+// ================================
 
-    let search=document.getElementById(
 
-        "search"
+function openModal(id){
 
+
+    const modal =
+    document.getElementById(
+        id
     );
 
 
 
-    if(search){
+    if(modal){
 
 
-        search.addEventListener(
-
-            "input",
-
-            searchContent
-
+        modal.classList.add(
+            "active"
         );
 
 
     }
 
 
+}
+
+
+
+
+
+
+function closeModal(){
+
+
+    document
+    .querySelectorAll(".modal")
+    .forEach(modal=>{
+
+
+        modal.classList.remove(
+            "active"
+        );
+
+
+    });
+
+
+}
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"click",
+
+(e)=>{
+
+
+
+    if(
+    e.target.classList.contains(
+        "close-modal"
+    )
+    ){
+
+
+        closeModal();
+
+
+    }
+
 
 });
+
+
+
+
+
+
+
+
+// ================================
+// Кнопки открытия
+// ================================
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+
+const addTask =
+document.getElementById(
+"addTaskOpen"
+);
+
+
+
+if(addTask){
+
+
+addTask.onclick =
+()=>openModal(
+"taskModal"
+);
+
+
+}
+
+
+
+
+
+const addHabit =
+document.getElementById(
+"addHabit"
+);
+
+
+
+if(addHabit){
+
+
+addHabit.onclick =
+()=>openModal(
+"habitModal"
+);
+
+
+}
+
+
+
+
+
+const addGoal =
+document.getElementById(
+"addGoal"
+);
+
+
+
+if(addGoal){
+
+
+addGoal.onclick =
+()=>openModal(
+"goalModal"
+);
+
+
+}
+
+
+
+
+
+const addFinance =
+document.getElementById(
+"addFinance"
+);
+
+
+
+if(addFinance){
+
+
+addFinance.onclick =
+()=>openModal(
+"financeModal"
+);
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+
+
+// ================================
+// Тема
+// ================================
+
+
+function loadTheme(){
+
+
+
+const data =
+localStorage.getItem(
+"lifeflow_cache"
+);
+
+
+
+if(!data)
+return;
+
+
+
+const settings =
+JSON.parse(data)
+.settings;
+
+
+
+if(
+settings &&
+settings.theme === "light"
+){
+
+
+document.body.classList.add(
+"light"
+);
+
+
+}
+
+
+
+}
+
+
+
+
+
+function toggleTheme(){
+
+
+document.body
+.classList.toggle(
+"light"
+);
+
+
+
+const light =
+document.body
+.classList.contains(
+"light"
+);
+
+
+
+let data =
+JSON.parse(
+
+localStorage.getItem(
+"lifeflow_cache"
+)
+
+)
+|| {};
+
+
+
+data.settings =
+data.settings || {};
+
+
+
+data.settings.theme =
+light ?
+"light":
+"dark";
+
+
+
+localStorage.setItem(
+
+"lifeflow_cache",
+
+JSON.stringify(data)
+
+);
+
+
+}
+
+
+
+
+
+
+
+
+document.addEventListener(
+
+"DOMContentLoaded",
+
+()=>{
+
+
+loadTheme();
+
+
+
+const theme =
+document.getElementById(
+"themeToggle"
+);
+
+
+
+if(theme){
+
+
+theme.onclick =
+toggleTheme;
+
+
+}
+
+
+
+});
+
+
+
+
+
+
+
+
+
+// ================================
+// Дата
+// ================================
+
+
+function updateDate(){
+
+
+const el =
+document.getElementById(
+"currentDate"
+);
+
+
+
+if(el){
+
+
+el.innerText =
+new Date()
+.toLocaleDateString(
+"ru-RU",
+{
+
+day:"numeric",
+
+month:"long",
+
+year:"numeric"
+
+}
+
+);
+
+
+}
+
+
+
+}
+
+
+
+updateDate();
+
+
+
+
+
+
+
+
+// ================================
+// Toast
+// ================================
+
+
+function showToast(message){
+
+
+
+const toast =
+document.getElementById(
+"toast"
+);
+
+
+
+if(!toast)
+return;
+
+
+
+toast.innerText =
+message;
+
+
+
+toast.classList.add(
+"show"
+);
+
+
+
+setTimeout(()=>{
+
+
+toast.classList.remove(
+"show"
+);
+
+
+},3000);
+
+
+
+}
+
+
+
+window.openPage =
+openPage;
+
+
+window.openModal =
+openModal;
+
+
+window.closeModal =
+closeModal;
+
+
+window.showToast =
+showToast;
