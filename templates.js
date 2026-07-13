@@ -1,500 +1,143 @@
-/*
-==================================
- LifeFlow Ultimate
- Templates Manager v3
-==================================
-*/
-
-
-let templates = [];
-
-
-
-
-// ================================
-// Загрузка шаблонов
-// ================================
-
-
-async function loadTemplates(){
-
-
-    const data =
-    await LifeStorage.get();
-
-
-
-    templates =
-    data.templates || [];
-
-
-
-    createDefaultTemplates();
-
-
-
-    renderTemplates();
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
-// Стандартные шаблоны
-// ================================
-
-
-async function createDefaultTemplates(){
-
-
-
-    if(templates.length>0)
-    return;
-
-
-
-
-    templates = [
-
-
-        {
-
-
-        id:"morning",
-
-
-        name:"Утро продуктивности",
-
-
-        tasks:[
-
-            "Зарядка",
-
-            "Душ",
-
-            "Планирование дня"
-
-        ]
-
-
-        },
-
-
-
-        {
-
-
-        id:"study",
-
-
-        name:"Учёба",
-
-
-        tasks:[
-
-            "Повторить тему",
-
-            "Сделать домашнее задание",
-
-            "Подготовиться к уроку"
-
-        ]
-
-
-        },
-
-
-
-        {
-
-
-        id:"workout",
-
-
-        name:"Тренировка",
-
-
-        tasks:[
-
-            "Разминка",
-
-            "Основная тренировка",
-
-            "Растяжка"
-
-        ]
-
-
+/**
+ * LifeFlow Ultimate - Templates Module
+ * Predefined and custom productivity templates
+ */
+
+const Templates = {
+    data: [],
+
+    init() {
+        this.data = Storage.get(Storage.KEYS.TEMPLATES);
+        this.bindEvents();
+        this.render();
+        console.log('[Templates] Initialized');
+    },
+
+    bindEvents() {
+        const createBtn = document.getElementById('create-template-btn');
+        if (createBtn) {
+            createBtn.addEventListener('click', () => this.showCreateModal());
         }
 
+        const saveBtn = document.getElementById('save-template-btn');
+        if (saveBtn) {
+            saveBtn.addEventListener('click', () => this.saveCustomTemplate());
+        }
 
+        document.querySelectorAll('[data-modal="template-modal"]').forEach(btn => {
+            btn.addEventListener('click', () => this.closeModal());
+        });
+    },
 
-    ];
+    render() {
+        const container = document.getElementById('templates-grid');
+        if (!container) return;
 
+        container.innerHTML = '';
 
+        this.data.forEach(template => {
+            const card = this.createTemplateCard(template);
+            container.appendChild(card);
+        });
+    },
 
-    await LifeStorage.update(
+    createTemplateCard(template) {
+        const card = document.createElement('div');
+        card.className = 'template-card';
 
-        "templates",
-
-        templates
-
-    );
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
-// Отображение
-// ================================
-
-
-function renderTemplates(){
-
-
-
-    const container =
-    document.getElementById(
-        "templatesContainer"
-    );
-
-
-
-    if(!container)
-    return;
-
-
-
-
-    container.innerHTML="";
-
-
-
-
-
-
-    templates.forEach(template=>{
-
-
-
-        const card =
-        document.createElement(
-            "div"
-        );
-
-
-
-        card.className =
-        "template-card";
-
-
+        const taskCount = template.tasks ? template.tasks.length : 0;
 
         card.innerHTML = `
-
-
-        <h3>
-
-        ${template.name}
-
-        </h3>
-
-
-
-        <p>
-
-        ${template.tasks.length}
-        задач
-
-        </p>
-
-
-
-        <button
-        onclick="useTemplate('${template.id}')">
-
-        Использовать
-
-        </button>
-
-
-
+            <h4>${template.name}</h4>
+            <p>${template.description || 'Готовый набор для продуктивности'}</p>
+            
+            <div style="margin: 12px 0; font-size:13px; color:var(--text-muted);">
+                <i class="fas fa-tasks"></i> ${taskCount} задач в шаблоне
+            </div>
+            
+            <button class="apply-btn" data-id="${template.id}">
+                <i class="fas fa-magic"></i> Применить шаблон
+            </button>
         `;
 
-
-
-
-        container.appendChild(card);
-
-
-
-    });
-
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
-// Использовать шаблон
-// ================================
-
-
-async function useTemplate(id){
-
-
-
-    const template =
-    templates.find(
-
-        t=>
-        t.id===id
-
-    );
-
-
-
-
-
-    if(!template)
-    return;
-
-
-
-
-
-
-    const data =
-    await LifeStorage.get();
-
-
-
-
-    template.tasks.forEach(task=>{
-
-
-
-        data.tasks.push({
-
-
-            id:
-            Date.now()
-            +
-            Math.random()
-            .toString(),
-
-
-            title:task,
-
-
-            description:
-            "Создано из шаблона",
-
-
-            priority:
-            "medium",
-
-
-            completed:false,
-
-
-            created:
-            new Date()
-            .toISOString()
-
-
-
+        card.querySelector('.apply-btn').addEventListener('click', () => {
+            this.applyTemplate(template);
         });
 
+        return card;
+    },
 
+    applyTemplate(template) {
+        if (!template.tasks || template.tasks.length === 0) {
+            Storage.showToast('В этом шаблоне нет задач', 'error');
+            return;
+        }
 
-    });
+        let added = 0;
 
+        template.tasks.forEach(taskTitle => {
+            const newTask = {
+                id: 'task_' + Date.now() + Math.random().toString(36).substr(2, 5),
+                title: taskTitle,
+                description: `Из шаблона: ${template.name}`,
+                date: new Date().toISOString().split('T')[0],
+                time: '',
+                priority: 'medium',
+                category: 'Работа',
+                status: 'todo',
+                completed: false,
+                createdAt: new Date().toISOString()
+            };
+            Storage.add(Storage.KEYS.TASKS, newTask);
+            added++;
+        });
 
+        Storage.showToast(`Применён шаблон "${template.name}". Добавлено ${added} задач.`);
 
+        if (window.Tasks) window.Tasks.refresh();
+        if (window.Kanban) window.Kanban.refresh();
+        if (window.App) window.App.updateDashboard();
+    },
 
+    showCreateModal() {
+        const modal = document.getElementById('template-modal');
+        document.getElementById('template-form').reset();
+        modal.classList.add('active');
+    },
 
-    await LifeStorage.save(
-        data
-    );
+    closeModal() {
+        document.getElementById('template-modal').classList.remove('active');
+    },
 
+    saveCustomTemplate() {
+        const name = document.getElementById('template-name').value.trim();
+        if (!name) {
+            Storage.showToast('Название шаблона обязательно', 'error');
+            return;
+        }
 
+        const tasksText = document.getElementById('template-tasks').value.trim();
+        const tasks = tasksText ? tasksText.split('\n').filter(t => t.trim()) : [];
 
+        const newTemplate = {
+            id: 'tpl_custom_' + Date.now(),
+            name,
+            description: document.getElementById('template-description').value.trim(),
+            tasks: tasks,
+            isCustom: true
+        };
 
+        Storage.add(Storage.KEYS.TEMPLATES, newTemplate);
+        Storage.showToast('Шаблон создан');
 
-    if(
-    typeof loadTasks==="function"
-    ){
+        this.closeModal();
+        this.refresh();
+    },
 
-
-        loadTasks();
-
-
+    refresh() {
+        this.data = Storage.get(Storage.KEYS.TEMPLATES);
+        this.render();
     }
+};
 
-
-
-
-
-
-    showToast(
-
-    "Шаблон добавлен"
-
-    );
-
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
-// Создать свой шаблон
-// ================================
-
-
-async function createTemplate(){
-
-
-
-    const name =
-    document.getElementById(
-        "templateName"
-    ).value;
-
-
-
-
-    const tasksText =
-    document.getElementById(
-        "templateTasks"
-    ).value;
-
-
-
-
-
-    if(!name || !tasksText)
-    return;
-
-
-
-
-
-
-    const item = {
-
-
-        id:
-        Date.now()
-        .toString(),
-
-
-        name,
-
-
-        tasks:
-        tasksText
-        .split("\n")
-        .filter(Boolean)
-
-
-    };
-
-
-
-
-
-
-    templates.push(
-        item
-    );
-
-
-
-
-
-    await LifeStorage.update(
-
-        "templates",
-
-        templates
-
-    );
-
-
-
-
-
-    renderTemplates();
-
-
-
-    showToast(
-        "Шаблон создан"
-    );
-
-
-
-}
-
-
-
-
-
-
-
-
-// ================================
-// Запуск
-// ================================
-
-
-document.addEventListener(
-
-"DOMContentLoaded",
-
-()=>{
-
-
-    loadTemplates();
-
-
-
-});
-
-
-
-
-
-
-window.useTemplate =
-useTemplate;
-
-
-window.createTemplate =
-createTemplate;
+window.Templates = Templates;
