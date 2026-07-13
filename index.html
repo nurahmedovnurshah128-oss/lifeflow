@@ -1,1292 +1,913 @@
-<!DOCTYPE html>
+✅ Вот все файлы проекта LifeFlow Ultimate по отдельности
+Я подготовил каждый файл полностью и чисто. Просто создай папку LifeFlow_Ultimate и сохрани каждый код в соответствующий файл.
+
+1. index.html
+HTML<!DOCTYPE html>
 <html lang="ru">
-
 <head>
-
-<meta charset="UTF-8">
-
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>LifeFlow Ultimate</title>
-
-<meta name="description" content="Современный планер задач, привычек, целей и финансов">
-
-<meta name="theme-color" content="#2d1b3d">
-
-
-<link rel="stylesheet" href="./style.css">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
-
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="LifeFlow Ultimate — профессиональный планировщик жизни, задач, привычек, целей и финансов.">
+    <meta name="theme-color" content="#1a1433">
+    <title>LifeFlow Ultimate • Планировщик жизни</title>
+    
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
 </head>
-
-
 <body>
-
-
-<div id="authScreen">
-
-<div class="auth-card">
-
-
-<div class="logo">
-
-<i class="fa-solid fa-layer-group"></i>
-
-<h1>LifeFlow</h1>
-
-<p>
-Управляй жизнью профессионально
-</p>
-
-</div>
-
-
-
-<div class="auth-tabs">
-
-<button class="tab active" data-tab="login">
-Вход
-</button>
-
-
-<button class="tab" data-tab="register">
-Регистрация
-</button>
-
-
-</div>
-
-
-
-<form id="loginForm">
-
-
-<input 
-type="email"
-id="loginEmail"
-placeholder="Email">
-
-
-<input
-type="password"
-id="loginPassword"
-placeholder="Пароль">
-
-
-<button type="submit">
-
-Войти
-
-</button>
-
-
-</form>
-
-
-
-<form id="registerForm" style="display:none">
-
-
-<input
-type="text"
-id="registerName"
-placeholder="Имя">
-
-
-<input
-type="email"
-id="registerEmail"
-placeholder="Email">
-
-
-<input
-type="password"
-id="registerPassword"
-placeholder="Пароль">
-
-
-<button type="submit">
-
-Создать аккаунт
-
-</button>
-
-
-</form>
-
-
-
-<button id="googleLogin" class="google-btn">
-
-<i class="fab fa-google"></i>
-
-Войти через Google
-
-</button>
-
-
-
-</div>
-
-</div>
-
-
-
-
-
-<div id="app">
-
-
-
-<aside id="sidebar">
-
-
-<div class="sidebar-top">
-
-<h2>
-LifeFlow
-</h2>
-
-</div>
-
-
-
-<nav>
-
-
-<button class="menu active" data-page="dashboard">
-
-<i class="fa-solid fa-house"></i>
-
-Главная
-
-</button>
-
-
-
-<button class="menu" data-page="tasks">
-
-<i class="fa-solid fa-list-check"></i>
-
-Задачи
-
-</button>
-
-
-
-<button class="menu" data-page="habits">
-
-<i class="fa-solid fa-fire"></i>
-
-Привычки
-
-</button>
-
-
-
-<button class="menu" data-page="goals">
-
-<i class="fa-solid fa-bullseye"></i>
-
-Цели
-
-</button>
-
-
-
-<button class="menu" data-page="finance">
-
-<i class="fa-solid fa-wallet"></i>
-
-Финансы
-
-</button>
-
-
-
-<button class="menu" data-page="statistics">
-
-<i class="fa-solid fa-chart-column"></i>
-
-Статистика
-
-</button>
-
-
-
-<button class="menu" data-page="templates">
-
-<i class="fa-solid fa-layer-group"></i>
-
-Шаблоны
-
-</button>
-
-
-
-<button class="menu" data-page="ai">
-
-<i class="fa-solid fa-robot"></i>
-
-AI
-
-</button>
-
-
-
-<button class="menu" data-page="settings">
-
-<i class="fa-solid fa-gear"></i>
-
-Настройки
-
-</button>
-
-
-
-</nav>
-
-
-
-<div class="sidebar-bottom">
-
-
-<button id="exportData">
-
-<i class="fa-solid fa-file-export"></i>
-
-Экспорт данных
-
-</button>
-
-
-<button id="logoutBtn">
-
-<i class="fa-solid fa-right-from-bracket"></i>
-
-Выход
-
-</button>
-
-
-</div>
-
-
-</aside>
-
-
-
-<main id="main">
-
-<header class="topbar">
-
-<div class="mobile-menu">
-
-<i class="fa-solid fa-bars"></i>
-
-</div>
-
-
-<div class="search-box">
-
-<i class="fa-solid fa-search"></i>
-
-<input 
-type="text"
-id="globalSearch"
-placeholder="Поиск...">
-
-</div>
-
-
-
-<div class="user-panel">
-
-
-<button id="themeToggle">
-
-<i class="fa-solid fa-moon"></i>
-
-</button>
-
-
-
-<div class="notifications">
-
-<i class="fa-solid fa-bell"></i>
-
-<span id="notificationCount">
-0
-</span>
-
-</div>
-
-
-
-<div class="profile">
-
-
-<img 
-id="userAvatar"
-src="data:,">
-
-
-
-<div>
-
-<b id="userName">
-Пользователь
-</b>
-
-
-<small id="userEmail">
-email@example.com
-</small>
-
-
-</div>
-
-
-</div>
-
-
-</div>
-
-</header>
-
-
-
-
-
-<section id="dashboard" class="page active">
-
-
-<div class="welcome-card">
-
-
-<div>
-
-<h1>
-
-Добро пожаловать,
-<span id="dashboardUser">
-User
-</span>
-
-</h1>
-
-
-<p>
-Сегодня отличный день для новых достижений.
-</p>
-
-
-</div>
-
-
-
-<div class="date-box">
-
-<i class="fa-solid fa-calendar-day"></i>
-
-<span id="currentDate"></span>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="stats-grid">
-
-
-<div class="stat-card">
-
-<div class="icon">
-
-<i class="fa-solid fa-list-check"></i>
-
-</div>
-
-
-<div>
-
-<h3 id="totalTasks">
-0
-</h3>
-
-<p>
-Всего задач
-</p>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="stat-card">
-
-<div class="icon">
-
-<i class="fa-solid fa-check"></i>
-
-</div>
-
-
-<div>
-
-<h3 id="completedTasks">
-0
-</h3>
-
-<p>
-Выполнено
-</p>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="stat-card">
-
-<div class="icon">
-
-<i class="fa-solid fa-fire"></i>
-
-</div>
-
-
-<div>
-
-<h3 id="habitProgress">
-0%
-</h3>
-
-<p>
-Привычки
-</p>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="stat-card">
-
-<div class="icon">
-
-<i class="fa-solid fa-wallet"></i>
-
-</div>
-
-
-<div>
-
-<h3 id="balance">
-0
-</h3>
-
-<p>
-Баланс
-</p>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-
-
-
-
-
-<div class="dashboard-grid">
-
-
-
-<div class="card today-card">
-
-
-<div class="card-header">
-
-
-<h2>
-Сегодня
-</h2>
-
-
-<button id="quickAddTask">
-+
-</button>
-
-
-</div>
-
-
-
-<div id="todayTasks"></div>
-
-
-</div>
-
-
-
-
-
-<div class="card progress-card">
-
-
-<div class="card-header">
-
-<h2>
-Прогресс
-</h2>
-
-</div>
-
-
-<canvas id="progressChart"></canvas>
-
-
-</div>
-
-
-</div>
-
-
-
-</section>
-
-
-
-
-
-
-
-<section id="tasks" class="page">
-
-
-<div class="page-header">
-
-
-<div>
-
-<h1>
-Задачи
-</h1>
-
-<p>
-Управляй своими делами и планами
-</p>
-
-
-</div>
-
-
-
-<button class="primary-btn" id="addTaskOpen">
-
-<i class="fa-solid fa-plus"></i>
-
-Новая задача
-
-</button>
-
-
-</div>
-
-
-
-
-
-<div class="task-toolbar">
-
-
-<div class="filters">
-
-
-<button class="filter active" data-filter="all">
-
-Все
-
-</button>
-
-
-<button class="filter" data-filter="active">
-
-Активные
-
-</button>
-
-
-<button class="filter" data-filter="completed">
-
-Выполненные
-
-</button>
-
-
-</div>
-
-
-
-
-<select id="taskSort">
-
-
-<option value="date">
-По дате
-</option>
-
-
-<option value="priority">
-По приоритету
-</option>
-
-
-<option value="name">
-По названию
-</option>
-
-
-</select>
-
-
-</div>
-
-
-
-
-<div id="taskContainer" class="task-list">
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section id="habits" class="page">
-
-
-<div class="page-header">
-
-
-<div>
-
-<h1>
-Привычки
-</h1>
-
-
-<p>
-Строй дисциплину каждый день
-</p>
-
-
-</div>
-
-
-
-<button class="primary-btn" id="addHabit">
-
-<i class="fa-solid fa-plus"></i>
-
-Добавить
-
-</button>
-
-
-</div>
-
-
-
-
-<div id="habitsContainer" class="habits-grid">
-
-</div>
-
-
-</section>
-
-
-
-
-
-<section id="goals" class="page">
-
-
-<div class="page-header">
-
-
-<div>
-
-<h1>
-Цели
-</h1>
-
-
-<p>
-Большие цели из маленьких шагов
-</p>
-
-
-</div>
-
-
-
-<button class="primary-btn" id="addGoal">
-
-<i class="fa-solid fa-plus"></i>
-
-Новая цель
-
-</button>
-
-
-</div>
-
-
-
-
-<div id="goalsContainer" class="goals-grid">
-
-</div>
-
-
-</section>
-<section id="finance" class="page">
-
-<div class="page-header">
-
-<div>
-
-<h1>
-Финансы
-</h1>
-
-<p>
-Контроль доходов и расходов
-</p>
-
-</div>
-
-
-<button class="primary-btn" id="addFinance">
-
-<i class="fa-solid fa-plus"></i>
-
-Добавить
-
-</button>
-
-
-</div>
-
-
-
-<div class="finance-summary">
-
-
-<div class="money-card">
-
-<span>
-Доходы
-</span>
-
-<h2 id="totalIncome">
-0
-</h2>
-
-</div>
-
-
-<div class="money-card">
-
-<span>
-Расходы
-</span>
-
-<h2 id="totalExpense">
-0
-</h2>
-
-</div>
-
-
-<div class="money-card">
-
-<span>
-Баланс
-</span>
-
-<h2 id="financeBalance">
-0
-</h2>
-
-</div>
-
-
-</div>
-
-
-
-<canvas id="financeChart"></canvas>
-
-
-<div id="financeContainer"></div>
-
-
-</section>
-
-
-
-
-
-<section id="statistics" class="page">
-
-<div class="page-header">
-
-<h1>
-Статистика
-</h1>
-
-</div>
-
-
-<div class="charts-grid">
-
-
-<div class="card">
-
-<canvas id="tasksStatistics"></canvas>
-
-</div>
-
-
-<div class="card">
-
-<canvas id="habitsStatistics"></canvas>
-
-</div>
-
-
-<div class="card">
-
-<canvas id="moneyStatistics"></canvas>
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-<section id="templates" class="page">
-
-<div class="page-header">
-
-<div>
-
-<h1>
-Шаблоны
-</h1>
-
-<p>
-Быстро создавай планы
-</p>
-
-</div>
-
-
-<button class="primary-btn" id="createTemplate">
-
-Создать шаблон
-
-</button>
-
-
-</div>
-
-
-
-<div id="templatesContainer"></div>
-
-
-</section>
-
-
-
-
-
-
-
-<section id="ai" class="page">
-
-
-<h1>
-AI Помощник
-</h1>
-
-
-<div class="ai-container">
-
-
-<div id="aiMessages">
-
-
-<div class="ai-message">
-
-Привет! Я помогу планировать день.
-
-</div>
-
-
-</div>
-
-
-<div>
-
-<input id="aiInput" placeholder="Напиши вопрос...">
-
-
-<button id="aiSend">
-
-➤
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-<section id="settings" class="page">
-
-
-<h1>
-Настройки
-</h1>
-
-
-<div class="settings-card">
-
-
-<div class="setting-item">
-
-
-<h3>
-Тёмная тема
-</h3>
-
-
-<input type="checkbox" id="darkMode">
-
-
-</div>
-
-
-<div class="setting-item">
-
-
-<h3>
-Уведомления
-</h3>
-
-
-<input type="checkbox" id="notificationsToggle">
-
-
-</div>
-
-
-</div>
-
-
-</section>
-
-
-
-</main>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Модальное окно задачи -->
-
-<div id="taskModal" class="modal">
-
-
-<div class="modal-content">
-
-
-<h2>
-Новая задача
-</h2>
-
-
-<input id="taskTitle" placeholder="Название">
-
-
-<textarea id="taskDescription" placeholder="Описание"></textarea>
-
-
-<select id="taskPriority">
-
-<option value="low">
-Низкий
-</option>
-
-<option value="medium">
-Средний
-</option>
-
-<option value="high">
-Высокий
-</option>
-
-</select>
-
-
-<input type="datetime-local" id="taskDate">
-
-
-<button id="saveTask" class="primary-btn">
-
-Создать
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div id="habitModal" class="modal">
-
-
-<div class="modal-content">
-
-
-<h2>
-Новая привычка
-</h2>
-
-
-<input id="habitName" placeholder="Название">
-
-
-<input id="habitDays" type="number" placeholder="Дни">
-
-
-<button id="saveHabit">
-
-Создать
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div id="goalModal" class="modal">
-
-
-<div class="modal-content">
-
-
-<h2>
-Новая цель
-</h2>
-
-
-<input id="goalTitle" placeholder="Название">
-
-
-<textarea id="goalDescription"></textarea>
-
-
-<input id="goalDeadline" type="date">
-
-
-<button id="saveGoal">
-
-Создать
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div id="financeModal" class="modal">
-
-
-<div class="modal-content">
-
-
-<h2>
-Финансовая операция
-</h2>
-
-
-<input id="financeTitle" placeholder="Название">
-
-
-<input id="financeAmount" type="number" placeholder="Сумма">
-
-
-<select id="financeType">
-
-
-<option value="income">
-Доход
-</option>
-
-
-<option value="expense">
-Расход
-</option>
-
-
-</select>
-
-
-<button id="saveFinance">
-
-Сохранить
-
-</button>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<div id="toast"></div>
-
-
-
-
-
-
-<!-- Firebase -->
-
-<script type="module" src="./firebase.js"></script>
-
-<script type="module" src="./storage.js"></script>
-
-<script type="module" src="./auth.js"></script>
-
-
-
-<!-- Основной код -->
-
-<script src="./app.js"></script>
-
-
-
-<!-- Модули -->
-
-<script type="module" src="./tasks.js"></script>
-
-<script type="module" src="./habits.js"></script>
-
-<script type="module" src="./finance.js"></script>
-
-<script type="module" src="./goals.js"></script>
-
-<script type="module" src="./templates.js"></script>
-
-<script type="module" src="./charts.js"></script>
-
-
-
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <i class="fas fa-infinity"></i>
+                    <span>LifeFlow</span>
+                    <small>Ultimate</small>
+                </div>
+                <button class="sidebar-close" id="sidebar-close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <nav class="nav-menu">
+                <div class="nav-section">
+                    <div class="nav-label">Главное</div>
+                    <a href="#" class="nav-item active" data-section="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="tasks">
+                        <i class="fas fa-tasks"></i>
+                        <span>Задачи</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="kanban">
+                        <i class="fas fa-columns"></i>
+                        <span>Kanban</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="calendar">
+                        <i class="fas fa-calendar-alt"></i>
+                        <span>Календарь</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-label">Развитие</div>
+                    <a href="#" class="nav-item" data-section="habits">
+                        <i class="fas fa-check-double"></i>
+                        <span>Привычки</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="goals">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Цели</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-label">Управление</div>
+                    <a href="#" class="nav-item" data-section="finance">
+                        <i class="fas fa-wallet"></i>
+                        <span>Финансы</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="templates">
+                        <i class="fas fa-layer-group"></i>
+                        <span>Шаблоны</span>
+                    </a>
+                    <a href="#" class="nav-item" data-section="ai">
+                        <i class="fas fa-robot"></i>
+                        <span>AI Помощник</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-label">Система</div>
+                    <a href="#" class="nav-item" data-section="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Настройки</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-mini">
+                    <div class="avatar" id="sidebar-avatar">У</div>
+                    <div class="user-info">
+                        <div class="user-name" id="sidebar-username">Пользователь</div>
+                        <div class="user-status">Premium</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <div class="main-wrapper">
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <button class="menu-toggle" id="menu-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <div class="page-header">
+                        <h1 id="page-title">Dashboard</h1>
+                        <div class="page-subtitle" id="page-subtitle">Сегодня — отличный день для продуктивности</div>
+                    </div>
+                </div>
+                
+                <div class="topbar-right">
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="global-search" placeholder="Поиск по всему...">
+                    </div>
+                    
+                    <div class="topbar-actions">
+                        <button class="icon-btn" id="quick-add-btn" title="Быстрое добавление">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <div class="user-profile">
+                            <div class="avatar" id="topbar-avatar">У</div>
+                            <div class="user-details">
+                                <span class="user-name" id="topbar-username">Пользователь</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- CONTENT AREA -->
+            <main class="content-area">
+                
+                <!-- DASHBOARD SECTION -->
+                <section id="dashboard" class="section active">
+                    <div class="dashboard-grid">
+                        <!-- Welcome Card -->
+                        <div class="glass-card welcome-card">
+                            <div class="welcome-content">
+                                <div class="welcome-text">
+                                    <h2>Добро пожаловать, <span id="dashboard-username">друг</span>!</h2>
+                                    <p id="current-date"></p>
+                                    <div class="motivation">Ты уже на пути к лучшей версии себя.</div>
+                                </div>
+                                <div class="welcome-stats">
+                                    <div class="stat-mini">
+                                        <div class="stat-value" id="dash-tasks-today">0</div>
+                                        <div class="stat-label">Задач сегодня</div>
+                                    </div>
+                                    <div class="stat-mini">
+                                        <div class="stat-value" id="dash-habits-progress">0%</div>
+                                        <div class="stat-label">Привычки</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick Stats -->
+                        <div class="glass-card stat-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-line"></i> Продуктивность</h3>
+                            </div>
+                            <div class="stat-grid">
+                                <div class="stat-item">
+                                    <div class="stat-number" id="dash-total-tasks">0</div>
+                                    <div class="stat-desc">Всего задач</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="dash-completed-tasks">0</div>
+                                    <div class="stat-desc">Выполнено</div>
+                                </div>
+                                <div class="stat-item">
+                                    <div class="stat-number" id="dash-completion-rate">0%</div>
+                                    <div class="stat-desc">Процент выполнения</div>
+                                </div>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" id="dash-progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+
+                        <!-- Finance Snapshot -->
+                        <div class="glass-card finance-snapshot">
+                            <div class="card-header">
+                                <h3><i class="fas fa-wallet"></i> Финансы</h3>
+                                <button class="btn-small" onclick="showSection('finance')">Подробнее</button>
+                            </div>
+                            <div class="finance-stats">
+                                <div class="finance-item balance">
+                                    <div class="label">Баланс</div>
+                                    <div class="value" id="dash-balance">0 ₽</div>
+                                </div>
+                                <div class="finance-row">
+                                    <div class="finance-item income">
+                                        <i class="fas fa-arrow-up"></i>
+                                        <span id="dash-income">0 ₽</span>
+                                    </div>
+                                    <div class="finance-item expense">
+                                        <i class="fas fa-arrow-down"></i>
+                                        <span id="dash-expense">0 ₽</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Today's Tasks -->
+                        <div class="glass-card today-tasks">
+                            <div class="card-header">
+                                <h3><i class="fas fa-calendar-day"></i> Задачи на сегодня</h3>
+                                <button class="btn-small" onclick="showSection('tasks')">Все задачи</button>
+                            </div>
+                            <div class="task-list-mini" id="dash-today-tasks">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Productivity Chart -->
+                        <div class="glass-card chart-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-chart-bar"></i> Продуктивность за неделю</h3>
+                            </div>
+                            <div class="chart-container">
+                                <canvas id="productivity-chart"></canvas>
+                            </div>
+                        </div>
+
+                        <!-- Habits Progress -->
+                        <div class="glass-card habits-progress-card">
+                            <div class="card-header">
+                                <h3><i class="fas fa-check-double"></i> Прогресс привычек</h3>
+                            </div>
+                            <div class="habits-mini-list" id="dash-habits-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TASKS SECTION -->
+                <section id="tasks" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-tasks"></i> Менеджер задач</h2>
+                        <div class="section-actions">
+                            <button class="btn-primary" id="add-task-btn">
+                                <i class="fas fa-plus"></i> Новая задача
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="toolbar">
+                        <div class="search-filter">
+                            <div class="search-input">
+                                <i class="fas fa-search"></i>
+                                <input type="text" id="task-search" placeholder="Поиск задач...">
+                            </div>
+                            
+                            <select id="task-filter-status">
+                                <option value="">Все статусы</option>
+                                <option value="todo">К выполнению</option>
+                                <option value="inprogress">В процессе</option>
+                                <option value="done">Выполнено</option>
+                            </select>
+                            
+                            <select id="task-filter-priority">
+                                <option value="">Все приоритеты</option>
+                                <option value="high">Высокий</option>
+                                <option value="medium">Средний</option>
+                                <option value="low">Низкий</option>
+                            </select>
+                            
+                            <select id="task-filter-category">
+                                <option value="">Все категории</option>
+                                <option value="Работа">Работа</option>
+                                <option value="Личное">Личное</option>
+                                <option value="Здоровье">Здоровье</option>
+                                <option value="Учёба">Учёба</option>
+                                <option value="Другое">Другое</option>
+                            </select>
+                        </div>
+                        
+                        <div class="sort-controls">
+                            <select id="task-sort">
+                                <option value="date-desc">Сначала новые</option>
+                                <option value="date-asc">Сначала старые</option>
+                                <option value="priority">По приоритету</option>
+                                <option value="title">По названию</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="tasks-container">
+                        <div class="tasks-list" id="tasks-list">
+                            <!-- Tasks rendered by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- KANBAN SECTION -->
+                <section id="kanban" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-columns"></i> Kanban Доска</h2>
+                        <button class="btn-primary" id="add-kanban-task-btn">
+                            <i class="fas fa-plus"></i> Добавить задачу
+                        </button>
+                    </div>
+                    
+                    <div class="kanban-board">
+                        <div class="kanban-column" data-status="todo">
+                            <div class="column-header">
+                                <div class="column-title">
+                                    <i class="fas fa-list-ul"></i>
+                                    <span>Нужно сделать</span>
+                                </div>
+                                <div class="column-count" id="kanban-todo-count">0</div>
+                            </div>
+                            <div class="kanban-cards" id="kanban-todo" ondrop="dropKanban(event)" ondragover="allowDrop(event)">
+                                <!-- Cards populated by JS -->
+                            </div>
+                        </div>
+                        
+                        <div class="kanban-column" data-status="inprogress">
+                            <div class="column-header">
+                                <div class="column-title">
+                                    <i class="fas fa-spinner"></i>
+                                    <span>В процессе</span>
+                                </div>
+                                <div class="column-count" id="kanban-inprogress-count">0</div>
+                            </div>
+                            <div class="kanban-cards" id="kanban-inprogress" ondrop="dropKanban(event)" ondragover="allowDrop(event)">
+                                <!-- Cards -->
+                            </div>
+                        </div>
+                        
+                        <div class="kanban-column" data-status="done">
+                            <div class="column-header">
+                                <div class="column-title">
+                                    <i class="fas fa-check-circle"></i>
+                                    <span>Готово</span>
+                                </div>
+                                <div class="column-count" id="kanban-done-count">0</div>
+                            </div>
+                            <div class="kanban-cards" id="kanban-done" ondrop="dropKanban(event)" ondragover="allowDrop(event)">
+                                <!-- Cards -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CALENDAR SECTION -->
+                <section id="calendar" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-calendar-alt"></i> Календарь</h2>
+                        <div class="calendar-controls">
+                            <button class="btn-icon" id="prev-month"><i class="fas fa-chevron-left"></i></button>
+                            <div class="current-month" id="current-month"></div>
+                            <button class="btn-icon" id="next-month"><i class="fas fa-chevron-right"></i></button>
+                            <button class="btn-primary btn-small" id="add-calendar-task-btn">
+                                <i class="fas fa-plus"></i> Добавить событие
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-container">
+                        <div class="calendar-weekdays">
+                            <div>Пн</div><div>Вт</div><div>Ср</div><div>Чт</div><div>Пт</div><div>Сб</div><div>Вс</div>
+                        </div>
+                        <div class="calendar-grid" id="calendar-grid">
+                            <!-- Days populated by JS -->
+                        </div>
+                    </div>
+                    
+                    <div class="calendar-legend">
+                        <div class="legend-item"><span class="legend-dot high"></span> Высокий приоритет</div>
+                        <div class="legend-item"><span class="legend-dot medium"></span> Средний</div>
+                        <div class="legend-item"><span class="legend-dot low"></span> Низкий</div>
+                    </div>
+                </section>
+
+                <!-- HABITS SECTION -->
+                <section id="habits" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-check-double"></i> Трекер привычек</h2>
+                        <button class="btn-primary" id="add-habit-btn">
+                            <i class="fas fa-plus"></i> Новая привычка
+                        </button>
+                    </div>
+                    
+                    <div class="habits-grid" id="habits-grid">
+                        <!-- Habit cards populated by JS -->
+                    </div>
+                </section>
+
+                <!-- GOALS SECTION -->
+                <section id="goals" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-bullseye"></i> Цели и подзадачи</h2>
+                        <button class="btn-primary" id="add-goal-btn">
+                            <i class="fas fa-plus"></i> Новая цель
+                        </button>
+                    </div>
+                    
+                    <div class="goals-grid" id="goals-grid">
+                        <!-- Goal cards populated by JS -->
+                    </div>
+                </section>
+
+                <!-- FINANCE SECTION -->
+                <section id="finance" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-wallet"></i> Личные финансы</h2>
+                        <div class="section-actions">
+                            <button class="btn-success" id="add-income-btn">
+                                <i class="fas fa-plus"></i> Доход
+                            </button>
+                            <button class="btn-danger" id="add-expense-btn">
+                                <i class="fas fa-minus"></i> Расход
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="finance-overview">
+                        <div class="finance-card balance-card">
+                            <div class="finance-label">Текущий баланс</div>
+                            <div class="finance-value" id="finance-balance">0 ₽</div>
+                            <div class="finance-change" id="finance-change"></div>
+                        </div>
+                        <div class="finance-card income-card">
+                            <div class="finance-label">Общий доход</div>
+                            <div class="finance-value" id="finance-total-income">0 ₽</div>
+                        </div>
+                        <div class="finance-card expense-card">
+                            <div class="finance-label">Общие расходы</div>
+                            <div class="finance-value" id="finance-total-expense">0 ₽</div>
+                        </div>
+                    </div>
+                    
+                    <div class="finance-charts">
+                        <div class="glass-card">
+                            <h3>Распределение расходов</h3>
+                            <div class="chart-container small">
+                                <canvas id="finance-pie-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="glass-card">
+                            <h3>Динамика за последние 30 дней</h3>
+                            <div class="chart-container small">
+                                <canvas id="finance-line-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="finance-transactions">
+                        <h3>Последние транзакции</h3>
+                        <div class="transactions-list" id="transactions-list">
+                            <!-- Populated by JS -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- TEMPLATES SECTION -->
+                <section id="templates" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-layer-group"></i> Шаблоны продуктивности</h2>
+                        <button class="btn-primary" id="create-template-btn">
+                            <i class="fas fa-plus"></i> Создать шаблон
+                        </button>
+                    </div>
+                    
+                    <div class="templates-grid" id="templates-grid">
+                        <!-- Templates populated by JS -->
+                    </div>
+                    
+                    <div class="templates-info">
+                        <p><i class="fas fa-info-circle"></i> Применение шаблона добавит задачи и привычки в ваши списки.</p>
+                    </div>
+                </section>
+
+                <!-- AI ASSISTANT SECTION -->
+                <section id="ai" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-robot"></i> AI Помощник</h2>
+                        <button class="btn-primary" id="ai-analyze-btn">
+                            <i class="fas fa-magic"></i> Проанализировать мою продуктивность
+                        </button>
+                    </div>
+                    
+                    <div class="ai-container">
+                        <div class="ai-chat">
+                            <div class="ai-header">
+                                <div class="ai-avatar">
+                                    <i class="fas fa-robot"></i>
+                                </div>
+                                <div>
+                                    <div class="ai-name">LifeFlow AI</div>
+                                    <div class="ai-status">Ваш персональный помощник</div>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-messages" id="ai-messages">
+                                <div class="ai-message assistant">
+                                    <div class="message-content">
+                                        Привет! Я проанализирую твои данные и дам полезные рекомендации. Нажми кнопку выше, чтобы начать анализ.
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="ai-input">
+                                <input type="text" id="ai-input" placeholder="Спроси меня о продуктивности...">
+                                <button id="ai-send-btn"><i class="fas fa-paper-plane"></i></button>
+                            </div>
+                        </div>
+                        
+                        <div class="ai-insights">
+                            <h3>Быстрые инсайты</h3>
+                            <div class="insight-cards" id="ai-insights">
+                                <!-- Populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SETTINGS SECTION -->
+                <section id="settings" class="section">
+                    <div class="section-header">
+                        <h2><i class="fas fa-cog"></i> Настройки</h2>
+                    </div>
+                    
+                    <div class="settings-grid">
+                        <div class="glass-card settings-card">
+                            <h3>Профиль</h3>
+                            <div class="form-group">
+                                <label>Ваше имя</label>
+                                <input type="text" id="settings-username" placeholder="Введите имя">
+                            </div>
+                            <button class="btn-primary" id="save-profile-btn">Сохранить профиль</button>
+                        </div>
+                        
+                        <div class="glass-card settings-card">
+                            <h3>Данные</h3>
+                            <div class="settings-actions">
+                                <button class="btn-secondary" id="export-data-btn">
+                                    <i class="fas fa-download"></i> Экспорт всех данных (JSON)
+                                </button>
+                                <button class="btn-secondary" id="import-data-btn">
+                                    <i class="fas fa-upload"></i> Импорт данных
+                                </button>
+                                <input type="file" id="import-file" accept=".json" hidden>
+                                <button class="btn-danger" id="clear-data-btn">
+                                    <i class="fas fa-trash"></i> Очистить все данные
+                                </button>
+                            </div>
+                            <p class="settings-note">Все данные хранятся локально в вашем браузере (LocalStorage).</p>
+                        </div>
+                        
+                        <div class="glass-card settings-card">
+                            <h3>Уведомления и время</h3>
+                            <div class="settings-actions">
+                                <button class="btn-secondary" id="enable-notifications-btn">
+                                    <i class="fas fa-bell"></i> Включить уведомления о задачах
+                                </button>
+                                <button class="btn-secondary" id="logout-btn">
+                                    <i class="fas fa-sign-out-alt"></i> Выйти из аккаунта
+                                </button>
+                            </div>
+                            <p class="settings-note">Уведомления работают только когда вкладка открыта. Для задач с указанным временем сегодня вы получите напоминание.</p>
+                        </div>
+                        
+                        <div class="glass-card settings-card">
+                            <h3>О приложении</h3>
+                            <div class="app-info">
+                                <div class="info-row">
+                                    <span>Версия</span>
+                                    <span>1.0.0 Ultimate</span>
+                                </div>
+                                <div class="info-row">
+                                    <span>Режим</span>
+                                    <span>Полностью оффлайн</span>
+                                </div>
+                                <div class="info-row">
+                                    <span>Хранение</span>
+                                    <span>LocalStorage + готово к Firebase</span>
+                                </div>
+                            </div>
+                            <div class="app-actions">
+                                <button class="btn-secondary" onclick="window.location.reload()">
+                                    <i class="fas fa-sync"></i> Перезагрузить приложение
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+            </main>
+        </div>
+    </div>
+
+    <!-- ==================== MODALS ==================== -->
+    
+    <!-- Task Modal -->
+    <div id="task-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="task-modal-title">Новая задача</h3>
+                <button class="modal-close" data-modal="task-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="task-form">
+                    <input type="hidden" id="task-id">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Название задачи *</label>
+                            <input type="text" id="task-title" required placeholder="Что нужно сделать?">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Описание</label>
+                            <textarea id="task-description" rows="3" placeholder="Дополнительные детали..."></textarea>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row two-cols">
+                        <div class="form-group">
+                            <label>Дата</label>
+                            <input type="date" id="task-date">
+                        </div>
+                        <div class="form-group">
+                            <label>Время</label>
+                            <input type="time" id="task-time">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row two-cols">
+                        <div class="form-group">
+                            <label>Приоритет</label>
+                            <select id="task-priority">
+                                <option value="low">Низкий</option>
+                                <option value="medium" selected>Средний</option>
+                                <option value="high">Высокий</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Категория</label>
+                            <select id="task-category">
+                                <option value="Работа">Работа</option>
+                                <option value="Личное">Личное</option>
+                                <option value="Здоровье">Здоровье</option>
+                                <option value="Учёба">Учёба</option>
+                                <option value="Другое">Другое</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Статус</label>
+                            <select id="task-status">
+                                <option value="todo">К выполнению</option>
+                                <option value="inprogress">В процессе</option>
+                                <option value="done">Выполнено</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-modal="task-modal">Отмена</button>
+                <button type="button" class="btn-primary" id="save-task-btn">Сохранить задачу</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Habit Modal -->
+    <div id="habit-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="habit-modal-title">Новая привычка</h3>
+                <button class="modal-close" data-modal="habit-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="habit-form">
+                    <input type="hidden" id="habit-id">
+                    
+                    <div class="form-group">
+                        <label>Название привычки *</label>
+                        <input type="text" id="habit-name" required placeholder="Например: Утренняя зарядка">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea id="habit-description" rows="2" placeholder="Почему это важно для тебя?"></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-modal="habit-modal">Отмена</button>
+                <button type="button" class="btn-primary" id="save-habit-btn">Сохранить привычку</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goal Modal -->
+    <div id="goal-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="goal-modal-title">Новая цель</h3>
+                <button class="modal-close" data-modal="goal-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="goal-form">
+                    <input type="hidden" id="goal-id">
+                    
+                    <div class="form-group">
+                        <label>Название цели *</label>
+                        <input type="text" id="goal-name" required placeholder="Например: Выучить английский до B2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea id="goal-description" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-row two-cols">
+                        <div class="form-group">
+                            <label>Дедлайн</label>
+                            <input type="date" id="goal-deadline">
+                        </div>
+                        <div class="form-group">
+                            <label>Текущий прогресс (%)</label>
+                            <input type="number" id="goal-progress" min="0" max="100" value="0">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-modal="goal-modal">Отмена</button>
+                <button type="button" class="btn-primary" id="save-goal-btn">Сохранить цель</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Finance Transaction Modal -->
+    <div id="finance-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3 id="finance-modal-title">Новая транзакция</h3>
+                <button class="modal-close" data-modal="finance-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="finance-form">
+                    <input type="hidden" id="finance-id">
+                    <input type="hidden" id="finance-type">
+                    
+                    <div class="form-group">
+                        <label>Категория *</label>
+                        <select id="finance-category" required>
+                            <!-- Options populated by JS based on type -->
+                        </select>
+                    </div>
+                    
+                    <div class="form-row two-cols">
+                        <div class="form-group">
+                            <label>Сумма (₽) *</label>
+                            <input type="number" id="finance-amount" required min="1" step="1">
+                        </div>
+                        <div class="form-group">
+                            <label>Дата</label>
+                            <input type="date" id="finance-date">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Заметка</label>
+                        <input type="text" id="finance-note" placeholder="Комментарий к транзакции">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-modal="finance-modal">Отмена</button>
+                <button type="button" class="btn-primary" id="save-finance-btn">Сохранить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Template Modal -->
+    <div id="template-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3>Создать новый шаблон</h3>
+                <button class="modal-close" data-modal="template-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="template-form">
+                    <div class="form-group">
+                        <label>Название шаблона *</label>
+                        <input type="text" id="template-name" required placeholder="Например: Утро продуктивного человека">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Описание</label>
+                        <textarea id="template-description" rows="2"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Задачи в шаблоне (по одной на строку)</label>
+                        <textarea id="template-tasks" rows="4" placeholder="Проверить почту&#10;Сделать зарядку&#10;..."></textarea>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-modal="template-modal">Отмена</button>
+                <button type="button" class="btn-primary" id="save-template-btn">Создать шаблон</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subtask Modal (for goals) -->
+    <div id="subtask-modal" class="modal">
+        <div class="modal-content glass">
+            <div class="modal-header">
+                <h3>Добавить подзадачу</h3>
+                <button class="modal-close" data-modal="subtask-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="subtask-form">
+                    <input type="hidden" id="subtask-goal-id">
+                    <div class="form-group">
+                        <label>Название подзадачи</label>
+                        <input type="text" id="subtask-title" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" data-modal="subtask-modal">Отмена</button>
+                <button type="button" class="btn-primary" id="save-subtask-btn">Добавить</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal active">
+        <div class="modal-content glass" style="max-width: 420px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-lock"></i> Вход в LifeFlow Ultimate</h3>
+            </div>
+            <div class="modal-body">
+                <div style="text-align: center; margin-bottom: 24px;">
+                    <i class="fas fa-infinity" style="font-size: 48px; color: var(--accent);"></i>
+                    <p style="margin-top: 12px; color: var(--text-secondary);">Добро пожаловать! Войдите или создайте аккаунт</p>
+                </div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label>Имя пользователя</label>
+                        <input type="text" id="login-username" required placeholder="Ваше имя" value="Пользователь">
+                    </div>
+                    <div class="form-group">
+                        <label>Пароль (для демо — любой)</label>
+                        <input type="password" id="login-password" required placeholder="Введите пароль" value="demo123">
+                    </div>
+                    <div style="margin-top: 8px; font-size: 13px; color: var(--text-muted);">
+                        <i class="fas fa-info-circle"></i> Это демо-версия. Пароль сохраняется локально.
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer" style="justify-content: center; gap: 12px;">
+                <button type="button" class="btn-secondary" id="login-btn" style="flex: 1;">
+                    <i class="fas fa-sign-in-alt"></i> Войти
+                </button>
+                <button type="button" class="btn-primary" id="register-btn" style="flex: 1;">
+                    <i class="fas fa-user-plus"></i> Зарегистрироваться
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+
+    <!-- Scripts -->
+    <script src="storage.js"></script>
+    <script src="tasks.js"></script>
+    <script src="kanban.js"></script>
+    <script src="calendar.js"></script>
+    <script src="habits.js"></script>
+    <script src="goals.js"></script>
+    <script src="finance.js"></script>
+    <script src="templates.js"></script>
+    <script src="ai.js"></script>
+    <script src="charts.js"></script>
+    <script src="settings.js"></script>
+    <script src="app.js"></script>
 </body>
-
 </html>
+
+Продолжение в следующем сообщении (чтобы не было слишком длинно).
+Хочешь, я сразу дам style.css, app.js, storage.js и остальные файлы по одному? Просто скажи «да» или «следующий файл».
+Или можешь попросить конкретный файл (например, «дай tasks.js»).
