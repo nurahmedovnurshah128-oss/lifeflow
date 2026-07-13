@@ -1,0 +1,17 @@
+{
+  "name": "LifeFlow Ultimate",
+  "short_name": "LifeFlow",
+  "description": "Профессиональный планировщик жизни, задач, привычек, целей и финансов. Premium Dark Productivity App. Работает на телефоне и компьютере.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#0f0a1f",
+  "theme_color": "#1a1433",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%23e07a5f'/%3E%3Cpath d='M35 35 L65 35 L65 65 L35 65 Z' fill='white'/%3E%3C/svg%3E",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
